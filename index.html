@@ -6,10 +6,6 @@
 <title>Dashboard SLA - Regional Sul | Ability</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-  /* ============================================================
-     TEMA 100% BLACK — DASHBOARD SLA
-     Para inserir o logo, veja o comentário no <header>.
-     ============================================================ */
   :root {
     --bg:            #000000;
     --bg-elevated:   #0a0a0a;
@@ -37,70 +33,38 @@
     --accent: #a78bfa;
     --accent-soft: rgba(167, 139, 250, .15);
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background:
-      radial-gradient(1200px 600px at 80% -10%, rgba(167,139,250,.08), transparent 60%),
-      radial-gradient(1000px 500px at -10% 10%, rgba(96,165,250,.06), transparent 55%),
-      var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
+    background: radial-gradient(1200px 600px at 80% -10%, rgba(167,139,250,.08), transparent 60%),
+      radial-gradient(1000px 500px at -10% 10%, rgba(96,165,250,.06), transparent 55%), var(--bg);
+    color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh;
   }
-
   .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-
-  /* ===== HEADER ===== */
   header {
     background: linear-gradient(135deg, #0a0a0a 0%, #131313 100%);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 26px 32px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 32px;
+    margin-bottom: 20px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
   }
   header::before {
-    content: '';
-    position: absolute;
-    top: -60px; right: -60px;
-    width: 240px; height: 240px;
-    background: radial-gradient(circle, var(--accent-soft), transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
+    content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px;
+    background: radial-gradient(circle, var(--accent-soft), transparent 70%); border-radius: 50%; pointer-events: none;
   }
   .header-top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; position: relative; z-index: 1; }
-
-  /* ===== LOGO ===== */
   .logo-img { height: 46px; width: auto; display: block; flex-shrink: 0; }
-
   .header-text { flex: 1; min-width: 220px; }
   header h1 {
     font-size: 1.65rem; font-weight: 700; letter-spacing: -.02em;
     background: linear-gradient(90deg, #fafafa, #a78bfa);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   }
   header .subtitle { color: var(--muted); margin-top: 2px; font-size: .92rem; }
   .header-bottom { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; align-items: center; position: relative; z-index: 1; }
-  .header-bottom .update {
-    background: rgba(255,255,255,.04); border: 1px solid var(--border);
-    padding: 8px 14px; border-radius: 9px; font-size: .85rem; color: var(--text-secondary);
-  }
-  .header-bottom .total-badge {
-    margin-left: auto; background: var(--accent-soft); border: 1px solid rgba(167,139,250,.3);
-    padding: 10px 22px; border-radius: 10px; text-align: right;
-  }
+  .header-bottom .update { background: rgba(255,255,255,.04); border: 1px solid var(--border); padding: 8px 14px; border-radius: 9px; font-size: .85rem; color: var(--text-secondary); }
+  .header-bottom .total-badge { margin-left: auto; background: var(--accent-soft); border: 1px solid rgba(167,139,250,.3); padding: 10px 22px; border-radius: 10px; text-align: right; }
   .header-bottom .total-badge .label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
   .header-bottom .total-badge .value { font-size: 1.55rem; font-weight: 700; color: var(--accent); }
-
-  /* ===== PRIORITY CARDS ===== */
   .cards-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 8px; }
   .pcard {
     background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
@@ -108,16 +72,8 @@
     transition: transform .2s, background .2s, border-color .2s; position: relative; overflow: hidden;
   }
   .pcard:hover { transform: translateY(-3px); background: var(--card-bg-hover); }
-  .pcard::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--accent) 8%, transparent));
-    pointer-events: none;
-  }
-  .pcard.p1 { --accent: var(--p1); }
-  .pcard.p2 { --accent: var(--p2); }
-  .pcard.p3 { --accent: var(--p3); }
-  .pcard.p4 { --accent: var(--p4); }
-  .pcard.ptotal { --accent: var(--accent-primary, #a78bfa); }
+  .pcard::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--accent) 8%, transparent)); pointer-events: none; }
+  .pcard.p1 { --accent: var(--p1); } .pcard.p2 { --accent: var(--p2); } .pcard.p3 { --accent: var(--p3); } .pcard.p4 { --accent: var(--p4); } .pcard.ptotal { --accent: var(--accent-primary, #a78bfa); }
   .pcard .ptitle { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 6px; position: relative; z-index: 1; }
   .pcard .ptitle .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
   .pcard .psla { color: var(--muted-dim); font-size: .75rem; margin-top: 2px; position: relative; z-index: 1; }
@@ -128,12 +84,8 @@
   .pcard .pstats .out { color: var(--red); font-weight: 600; }
   .pbar { height: 6px; background: var(--border); border-radius: 4px; margin-top: 12px; overflow: hidden; position: relative; z-index: 1; }
   .pbar .fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width .8s ease; box-shadow: 0 0 6px var(--accent); }
-
-  /* ===== SECTION TITLE ===== */
   .section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; margin: 28px 0 14px; color: var(--text); }
   .section-title .bar { width: 4px; height: 22px; background: var(--accent); border-radius: 3px; box-shadow: 0 0 8px var(--accent); }
-
-  /* ===== CHART / TABLE CARDS ===== */
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
   .chart-card, .table-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
   .chart-card.full { grid-column: 1 / -1; }
@@ -141,16 +93,10 @@
   .chart-card .h-sub, .table-card .h-sub { color: var(--muted); font-size: .8rem; margin-bottom: 16px; }
   .chart-wrap { position: relative; height: 320px; }
   .chart-wrap.tall { height: 440px; }
-
-  /* ===== TABLES ===== */
   .table-card { overflow: hidden; }
   .table-scroll { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 480px; }
-  thead th {
-    text-align: left; padding: 11px 14px; background: #0a0a0a; color: var(--muted);
-    font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em;
-    border-bottom: 1px solid var(--border-light); position: sticky; top: 0;
-  }
+  thead th { text-align: left; padding: 11px 14px; background: #0a0a0a; color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; }
   thead th.num { text-align: center; }
   tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
   tbody td.num { text-align: center; }
@@ -160,66 +106,37 @@
   .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .8rem; font-weight: 600; border: 1px solid transparent; }
   .pill.good { background: var(--green-bg); color: var(--green); border-color: rgba(52,211,153,.25); }
   .pill.mid  { background: var(--amber-bg); color: var(--amber); border-color: rgba(251,191,36,.25); }
-  .pill.bad  { background: var(--red-bg);   color: var(--red);   border-color: rgba(248,113,113,.25); }
+  .pill.bad  { background: var(--red-bg); color: var(--red); border-color: rgba(248,113,113,.25); }
   .pill.na   { background: rgba(255,255,255,.04); color: var(--muted-dim); border-color: var(--border); }
-
   .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); }
   .legend-item .sw { width: 12px; height: 12px; border-radius: 3px; box-shadow: 0 0 6px currentColor; }
-
   footer { text-align: center; color: var(--muted-dim); font-size: .8rem; padding: 28px 0 12px; border-top: 1px solid var(--border); margin-top: 24px; }
   footer .brand { color: var(--accent); font-weight: 600; }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 1100px) {
-    .cards-grid { grid-template-columns: repeat(3, 1fr); }
-    .charts-row { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 700px) {
-    .container { padding: 12px; }
-    header { padding: 22px 20px; }
-    header h1 { font-size: 1.25rem; }
-    .header-bottom .total-badge { margin-left: 0; width: 100%; text-align: center; }
-    .cards-grid { grid-template-columns: repeat(2, 1fr); }
-    .pcard { padding: 16px; }
-    .pcard .pct { font-size: 1.75rem; }
-    .chart-wrap { height: 280px; }
-    .logo-img { height: 38px; }
-  }
-  @media (max-width: 440px) {
-    .cards-grid { grid-template-columns: 1fr; }
-    .header-top { gap: 12px; }
-  }
+  @media (max-width: 1100px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .charts-row { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .container { padding: 12px; } header { padding: 22px 20px; } header h1 { font-size: 1.25rem; } .header-bottom .total-badge { margin-left: 0; width: 100%; text-align: center; } .cards-grid { grid-template-columns: repeat(2, 1fr); } .pcard { padding: 16px; } .pcard .pct { font-size: 1.75rem; } .chart-wrap { height: 280px; } .logo-img { height: 38px; } }
+  @media (max-width: 440px) { .cards-grid { grid-template-columns: 1fr; } .header-top { gap: 12px; } }
 </style>
 </head>
 <body>
 <div class="container">
-
-  <!-- ===================== HEADER ===================== -->
   <header>
     <div class="header-top">
-      <!-- LOGO — ajuste o nome do arquivo se necessário -->
       <img class="logo-img" src="ability-logo.png" alt="Logo">
-
       <div class="header-text">
         <h1>Dashboard SLA — Regional Sul</h1>
         <div class="subtitle">Análise de Performance por Prioridade</div>
       </div>
     </div>
-
     <div class="header-bottom">
-      <div class="update">🕐 Última Atualização: 02/07/2026 09:10</div>
+      <div class="update">🕐 Última Atualização: 02/07/2026 17:09</div>
       <div class="total-badge">
         <div class="label">📋 Total de TAs</div>
-        <div class="value">349</div>
+        <div class="value">375</div>
       </div>
     </div>
   </header>
-
-  <!-- ===================== PRIORITY CARDS ===================== -->
   <div class="cards-grid" id="cards-grid"></div>
-
-  <!-- ===================== OVERVIEW CHARTS ===================== -->
   <div class="section-title"><span class="bar"></span> Visão Geral de SLA</div>
   <div class="charts-row">
     <div class="chart-card">
@@ -233,8 +150,6 @@
       <div class="chart-wrap"><canvas id="chartPriority"></canvas></div>
     </div>
   </div>
-
-  <!-- ===================== BY UF ===================== -->
   <div class="section-title"><span class="bar"></span> 📍 % SLA Dentro por UF</div>
   <div class="chart-card">
     <div class="legend">
@@ -245,8 +160,6 @@
     </div>
     <div class="chart-wrap"><canvas id="chartUF"></canvas></div>
   </div>
-
-  <!-- ===================== BY COORDENADOR ===================== -->
   <div class="section-title"><span class="bar"></span> 👥 % SLA Dentro por Coordenador</div>
   <div class="charts-row">
     <div class="chart-card full">
@@ -259,266 +172,99 @@
       <div class="chart-wrap tall"><canvas id="chartCoord"></canvas></div>
     </div>
   </div>
-
-  <!-- ===================== BY CM TABLE ===================== -->
   <div class="section-title"><span class="bar"></span> 🏢 % SLA Dentro por CM</div>
   <div class="table-card">
     <h3>Detalhamento por Centro de Manutenção</h3>
     <div class="h-sub">% de TAs dentro do SLA por prioridade. Cores: 🟢 ≥80% · 🟡 60–79% · 🔴 &lt;60%</div>
     <div class="table-scroll">
-      <table id="tableCM">
-        <thead>
-          <tr><th>CM</th><th class="num">P1 (4h)</th><th class="num">P2 (12h)</th><th class="num">P3 (24h)</th><th class="num">P4 (10d)</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <table id="tableCM"><thead><tr><th>CM</th><th class="num">P1 (4h)</th><th class="num">P2 (12h)</th><th class="num">P3 (24h)</th><th class="num">P4 (10d)</th></tr></thead><tbody></tbody></table>
     </div>
   </div>
-
-  <!-- ===================== COORD TABLE ===================== -->
   <div class="section-title"><span class="bar"></span> 👥 Detalhamento por Coordenador</div>
   <div class="table-card">
     <div class="table-scroll">
-      <table id="tableCoord">
-        <thead>
-          <tr><th>Coordenador</th><th class="num">P1 (4h)</th><th class="num">P2 (12h)</th><th class="num">P3 (24h)</th><th class="num">P4 (10d)</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <table id="tableCoord"><thead><tr><th>Coordenador</th><th class="num">P1 (4h)</th><th class="num">P2 (12h)</th><th class="num">P3 (24h)</th><th class="num">P4 (10d)</th></tr></thead><tbody></tbody></table>
     </div>
   </div>
-
-  <footer>
-    Dados de referência: 07/2026 · Regional Sul · <span class="brand">Ability</span> · Dashboard gerado a partir da planilha de avaliação de campo
-  </footer>
+  <footer>Dados de referência: 07/2026 · Regional Sul · <span class="brand">Ability</span> · Dashboard gerado a partir da planilha de avaliação de campo</footer>
 </div>
-
 <script>
-// ============================================================
-//  DADOS (extraídos da aba Dashboard - Atualizado em 02/07/2026 09:10)
-// ============================================================
 const summary = {
-  P1: { dentro: 224, fora: 35, pct: 0.8649, sla: '4h' },
-  P2: { dentro: 56, fora: 5, pct: 0.9180, sla: '12h' },
-  P3: { dentro: 15, fora: 9, pct: 0.6250, sla: '24h' },
+  P1: { dentro: 241, fora: 38, pct: 0.8638, sla: '4h' },
+  P2: { dentro: 59, fora: 5, pct: 0.9219, sla: '12h' },
+  P3: { dentro: 18, fora: 9, pct: 0.6667, sla: '24h' },
   P4: { dentro: 3, fora: 2, pct: 0.6000, sla: '10d' }
 };
-summary.TOTAL = {
-  dentro: summary.P1.dentro + summary.P2.dentro + summary.P3.dentro + summary.P4.dentro,
-  fora:   summary.P1.fora   + summary.P2.fora   + summary.P3.fora   + summary.P4.fora,
-  pct: 0.8539, sla: ''
-};
+summary.TOTAL = { dentro: 321, fora: 54, pct: 0.8560, sla: '' };
 
 const byUF = [
-  { uf:'PR', p1:0.8404, p2:0.8000, p3:0.3750, p4:0.3333 },
-  { uf:'RS', p1:0.8987, p2:1.0000, p3:0.9000, p4:1.0000 },
-  { uf:'SC', p1:0.8605, p2:0.9286, p3:0.5000, p4:1.0000 }
+  { uf:'PR', p1:0.8396, p2:0.8261, p3:0.5000, p4:0.3333 },
+  { uf:'RS', p1:0.8929, p2:1.0000, p3:0.9000, p4:1.0000 },
+  { uf:'SC', p1:0.8652, p2:0.9286, p3:0.5714, p4:1.0000 }
 ];
 
 const byCoord = [
-  { nome:'ANDERSON PARENTE', p1:0.9130, p2:1.0000, p3:1.0000, p4:null },
-  { nome:'LUCAS BARROS', p1:0.8864, p2:0.7500, p3:0.7500, p4:0.5000 },
-  { nome:'JULIANO RONI MORAS', p1:0.8049, p2:0.7500, p3:0.0000, p4:0.0000 },
-  { nome:'CARLOS PREIS', p1:0.8519, p2:1.0000, p3:0.6000, p4:null },
-  { nome:'MAURICIO SPERAFICO', p1:0.9333, p2:1.0000, p3:0.6667, p4:1.0000 },
-  { nome:'ALEXANDRE MAZONI', p1:0.9474, p2:0.6667, p3:null, p4:1.0000 },
+  { nome:'ANDERSON PARENTE', p1:0.8800, p2:1.0000, p3:1.0000, p4:null },
+  { nome:'LUCAS BARROS', p1:0.8723, p2:0.8182, p3:0.8333, p4:0.5000 },
+  { nome:'JULIANO RONI MORAS', p1:0.7955, p2:0.7500, p3:0.0000, p4:0.0000 },
+  { nome:'CARLOS PREIS', p1:0.8545, p2:1.0000, p3:0.6667, p4:null },
+  { nome:'MAURICIO SPERAFICO', p1:0.9375, p2:1.0000, p3:0.6667, p4:1.0000 },
+  { nome:'ALEXANDRE MAZONI', p1:0.9500, p2:0.6667, p3:null, p4:1.0000 },
   { nome:'ANDREI ROSSI', p1:1.0000, p2:1.0000, p3:1.0000, p4:null },
-  { nome:'ELENICE CONRAD', p1:0.7727, p2:1.0000, p3:0.0000, p4:null },
-  { nome:'ESDRAS VIEIRA', p1:0.8462, p2:1.0000, p3:1.0000, p4:null },
-  { nome:'LUIS AUGUSTO', p1:0.8235, p2:1.0000, p3:1.0000, p4:null }
+  { nome:'ELENICE CONRAD', p1:0.8276, p2:1.0000, p3:0.0000, p4:null },
+  { nome:'ESDRAS VIEIRA', p1:0.8571, p2:1.0000, p3:1.0000, p4:null },
+  { nome:'LUIS AUGUSTO', p1:0.8333, p2:1.0000, p3:1.0000, p4:null }
 ];
 
 const byCM = [
-  { cm:'CTA', p1:0.7727, p2:1.0000, p3:0.0000, p4:null },
-  { cm:'SJP', p1:0.9474, p2:null, p3:0.0000, p4:null },
+  { cm:'CTA', p1:0.8276, p2:1.0000, p3:0.0000, p4:null },
+  { cm:'SJP', p1:0.9500, p2:1.0000, p3:0.6667, p4:null },
   { cm:'LDA', p1:1.0000, p2:1.0000, p3:1.0000, p4:0.5000 },
   { cm:'BNU', p1:0.6923, p2:1.0000, p3:1.0000, p4:null },
   { cm:'FNS', p1:0.9286, p2:0.6667, p3:null, p4:null },
-  { cm:'CSL', p1:0.9091, p2:1.0000, p3:1.0000, p4:1.0000 },
-  { cm:'CSC', p1:0.9167, p2:0.7500, p3:null, p4:null },
-  { cm:'POA', p1:0.7500, p2:null, p3:1.0000, p4:null },
+  { cm:'CSL', p1:0.9167, p2:1.0000, p3:1.0000, p4:1.0000 },
+  { cm:'CSC', p1:0.8571, p2:0.7500, p3:null, p4:null },
+  { cm:'POA', p1:0.7692, p2:null, p3:1.0000, p4:null },
   { cm:'NHO', p1:1.0000, p2:1.0000, p3:0.0000, p4:null },
   { cm:'LGS', p1:0.8000, p2:null, p3:null, p4:null },
-  { cm:'SMA', p1:0.8667, p2:null, p3:1.0000, p4:null },
+  { cm:'SMA', p1:0.8235, p2:null, p3:1.0000, p4:null },
   { cm:'SAN', p1:0.8571, p2:1.0000, p3:null, p4:null },
-  { cm:'CCO', p1:0.7500, p2:1.0000, p3:0.0000, p4:null },
+  { cm:'CCO', p1:0.7778, p2:1.0000, p3:0.0000, p4:null },
   { cm:'MGA', p1:0.7500, p2:0.5000, p3:0.0000, p4:0.0000 },
   { cm:'CAN', p1:1.0000, p2:1.0000, p3:null, p4:null },
   { cm:'GRP', p1:0.6364, p2:1.0000, p3:1.0000, p4:null },
   { cm:'OSR', p1:1.0000, p2:1.0000, p3:1.0000, p4:null },
   { cm:'PLT', p1:1.0000, p2:1.0000, p3:1.0000, p4:null },
-  { cm:'JVE', p1:0.8235, p2:1.0000, p3:0.0000, p4:null },
-  { cm:'IAI', p1:0.9583, p2:1.0000, p3:0.5000, p4:null }
+  { cm:'JVE', p1:0.8235, p2:1.0000, p3:0.5000, p4:null },
+  { cm:'IAI', p1:0.9600, p2:1.0000, p3:0.5000, p4:null }
 ];
 
-// ===== HELPERS =====
 const fmt = v => (v == null || isNaN(v)) ? '—' : (v * 100).toFixed(1) + '%';
-const pctColor = (v, priority) => {
-  if (v == null) return 'na';
-  const threshold = priority === 'p1' ? 0.80 : 0.70;
-  if (v >= threshold) return 'good';
-  return 'bad';
-};
+const pctColor = (v, priority) => { if (v == null) return 'na'; const threshold = priority === 'p1' ? 0.80 : 0.70; return v >= threshold ? 'good' : 'bad'; };
 Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
 Chart.defaults.color = '#a1a1aa';
 Chart.defaults.borderColor = '#1f1f1f';
 
-// ===== PRIORITY CARDS =====
 (function renderCards(){
   const grid = document.getElementById('cards-grid');
-  const items = [
-    { key:'P1', cls:'p1', icon:'🎯', label:'P1' },
-    { key:'P2', cls:'p2', icon:'🎯', label:'P2' },
-    { key:'P3', cls:'p3', icon:'🎯', label:'P3' },
-    { key:'P4', cls:'p4', icon:'🎯', label:'P4' },
-    { key:'TOTAL', cls:'ptotal', icon:'📈', label:'Total' }
-  ];
+  const items = [{ key:'P1', cls:'p1', icon:'🎯', label:'P1' },{ key:'P2', cls:'p2', icon:'🎯', label:'P2' },{ key:'P3', cls:'p3', icon:'🎯', label:'P3' },{ key:'P4', cls:'p4', icon:'🎯', label:'P4' },{ key:'TOTAL', cls:'ptotal', icon:'📈', label:'Total' }];
   items.forEach(it => {
     const s = summary[it.key];
     const low = s.pct < 0.80 && it.key !== 'TOTAL' ? 'low' : '';
-    grid.insertAdjacentHTML('beforeend', `
-      <div class="pcard ${it.cls}">
-        <div class="ptitle"><span class="dot"></span>${it.icon} ${it.label}${s.sla ? ` <span style="font-weight:400;color:#71717a;font-size:.8rem">(${s.sla})</span>` : ''}</div>
-        <div class="psla">SLA de atendimento</div>
-        <div class="pct ${low}">${(s.pct*100).toFixed(1)}%</div>
-        <div class="pstats">
-          <span class="in">✅ ${s.dentro.toLocaleString('pt-BR')} dentro</span>
-          <span class="out">❌ ${s.fora.toLocaleString('pt-BR')} fora</span>
-        </div>
-        <div class="pbar"><div class="fill" style="width:${(s.pct*100)}%"></div></div>
-      </div>
-    `);
+    grid.insertAdjacentHTML('beforeend', `<div class="pcard ${it.cls}"><div class="ptitle"><span class="dot"></span>${it.icon} ${it.label}${s.sla ? ` <span style="font-weight:400;color:#71717a;font-size:.8rem">(${s.sla})</span>` : ''}</div><div class="psla">SLA de atendimento</div><div class="pct ${low}">${(s.pct*100).toFixed(1)}%</div><div class="pstats"><span class="in">✅ ${s.dentro.toLocaleString('pt-BR')} dentro</span><span class="out">❌ ${s.fora.toLocaleString('pt-BR')} fora</span></div><div class="pbar"><div class="fill" style="width:${(s.pct*100)}%"></div></div></div>`);
   });
 })();
 
-// ===== CHART 1: Donut Dentro x Fora =====
-new Chart(document.getElementById('chartDonut'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Dentro do SLA', 'Fora do SLA'],
-    datasets: [{
-      data: [summary.TOTAL.dentro, summary.TOTAL.fora],
-      backgroundColor: ['#34d399', '#f87171'],
-      borderColor: '#0d0d0d',
-      borderWidth: 3,
-      hoverOffset: 10
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    cutout: '68%',
-    plugins: {
-      legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle', color:'#e4e4e7', font:{size:12} } },
-      tooltip: {
-        backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, padding:12,
-        callbacks: {
-          label: ctx => {
-            const total = ctx.dataset.data.reduce((a,b)=>a+b,0);
-            return `${ctx.label}: ${ctx.parsed.toLocaleString('pt-BR')} (${(ctx.parsed/total*100).toFixed(1)}%)`;
-          }
-        }
-      }
-    }
-  }
-});
+new Chart(document.getElementById('chartDonut'), { type: 'doughnut', data: { labels: ['Dentro do SLA', 'Fora do SLA'], datasets: [{ data: [summary.TOTAL.dentro, summary.TOTAL.fora], backgroundColor: ['#34d399', '#f87171'], borderColor: '#0d0d0d', borderWidth: 3, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle', color:'#e4e4e7', font:{size:12} } }, tooltip: { backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, padding:12, callbacks: { label: ctx => { const total = ctx.dataset.data.reduce((a,b)=>a+b,0); return `${ctx.label}: ${ctx.parsed.toLocaleString('pt-BR')} (${(ctx.parsed/total*100).toFixed(1)}%)`; } } } } } });
 
-// ===== CHART 2: % por Prioridade (bar) =====
-new Chart(document.getElementById('chartPriority'), {
-  type: 'bar',
-  data: {
-    labels: ['P1 (4h)','P2 (12h)','P3 (24h)','P4 (10d)'],
-    datasets: [{
-      label: '% Dentro do SLA',
-      data: [summary.P1.pct, summary.P2.pct, summary.P3.pct, summary.P4.pct],
-      backgroundColor: ['#f87171','#fbbf24','#60a5fa','#a78bfa'],
-      borderRadius: 8,
-      maxBarThickness: 70
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display:false }, tooltip: { backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks: { label: ctx => (ctx.parsed.y*100).toFixed(1)+'%' } } },
-    scales: {
-      y: { min:0, max:1, ticks: { callback: v => (v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } },
-      x: { ticks:{ color:'#e4e4e7' }, grid:{ display:false } }
-    }
-  }
-});
+new Chart(document.getElementById('chartPriority'), { type: 'bar', data: { labels: ['P1 (4h)','P2 (12h)','P3 (24h)','P4 (10d)'], datasets: [{ label: '% Dentro do SLA', data: [summary.P1.pct, summary.P2.pct, summary.P3.pct, summary.P4.pct], backgroundColor: ['#f87171','#fbbf24','#60a5fa','#a78bfa'], borderRadius: 8, maxBarThickness: 70 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display:false }, tooltip: { backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks: { label: ctx => (ctx.parsed.y*100).toFixed(1)+'%' } } }, scales: { y: { min:0, max:1, ticks: { callback: v => (v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } }, x: { ticks:{ color:'#e4e4e7' }, grid:{ display:false } } } } });
 
-// ===== CHART 3: % por UF (grouped bar) =====
-new Chart(document.getElementById('chartUF'), {
-  type: 'bar',
-  data: {
-    labels: byUF.map(d => d.uf),
-    datasets: [
-      { label:'P1 (4h)',  data: byUF.map(d=>d.p1), backgroundColor:'#f87171', borderRadius:5 },
-      { label:'P2 (12h)', data: byUF.map(d=>d.p2), backgroundColor:'#fbbf24', borderRadius:5 },
-      { label:'P3 (24h)', data: byUF.map(d=>d.p3), backgroundColor:'#60a5fa', borderRadius:5 },
-      { label:'P4 (10d)', data: byUF.map(d=>d.p4), backgroundColor:'#a78bfa', borderRadius:5 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend:{ display:false }, tooltip:{ backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks:{ label: ctx => ctx.dataset.label+': '+(ctx.parsed.y*100).toFixed(1)+'%' } } },
-    scales: {
-      y: { min:0, max:1, ticks:{ callback: v=>(v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } },
-      x: { ticks:{ color:'#e4e4e7' }, grid:{ display:false } }
-    }
-  }
-});
+new Chart(document.getElementById('chartUF'), { type: 'bar', data: { labels: byUF.map(d => d.uf), datasets: [ { label:'P1 (4h)', data: byUF.map(d=>d.p1), backgroundColor:'#f87171', borderRadius:5 }, { label:'P2 (12h)', data: byUF.map(d=>d.p2), backgroundColor:'#fbbf24', borderRadius:5 }, { label:'P3 (24h)', data: byUF.map(d=>d.p3), backgroundColor:'#60a5fa', borderRadius:5 }, { label:'P4 (10d)', data: byUF.map(d=>d.p4), backgroundColor:'#a78bfa', borderRadius:5 } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend:{ display:false }, tooltip:{ backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks:{ label: ctx => ctx.dataset.label+': '+(ctx.parsed.y*100).toFixed(1)+'%' } } }, scales: { y: { min:0, max:1, ticks:{ callback: v=>(v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } }, x: { ticks:{ color:'#e4e4e7' }, grid:{ display:false } } } } });
 
-// ===== CHART 4: % por Coordenador (horizontal grouped bar) =====
-new Chart(document.getElementById('chartCoord'), {
-  type: 'bar',
-  data: {
-    labels: byCoord.map(d => d.nome),
-    datasets: [
-      { label:'P1 (4h)',  data: byCoord.map(d=>d.p1), backgroundColor:'#f87171', borderRadius:4 },
-      { label:'P2 (12h)', data: byCoord.map(d=>d.p2), backgroundColor:'#fbbf24', borderRadius:4 },
-      { label:'P3 (24h)', data: byCoord.map(d=>d.p3), backgroundColor:'#60a5fa', borderRadius:4 },
-      { label:'P4 (10d)', data: byCoord.map(d=>d.p4), backgroundColor:'#a78bfa', borderRadius:4 }
-    ]
-  },
-  options: {
-    indexAxis: 'y',
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend:{ display:false }, tooltip:{ backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks:{ label: ctx => ctx.dataset.label+': '+(ctx.parsed.x*100).toFixed(1)+'%' } } },
-    scales: {
-      x: { min:0, max:1, ticks:{ callback: v=>(v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } },
-      y: { ticks:{ color:'#e4e4e7', font:{size:11} }, grid:{ display:false } }
-    }
-  }
-});
+new Chart(document.getElementById('chartCoord'), { type: 'bar', data: { labels: byCoord.map(d => d.nome), datasets: [ { label:'P1 (4h)', data: byCoord.map(d=>d.p1), backgroundColor:'#f87171', borderRadius:4 }, { label:'P2 (12h)', data: byCoord.map(d=>d.p2), backgroundColor:'#fbbf24', borderRadius:4 }, { label:'P3 (24h)', data: byCoord.map(d=>d.p3), backgroundColor:'#60a5fa', borderRadius:4 }, { label:'P4 (10d)', data: byCoord.map(d=>d.p4), backgroundColor:'#a78bfa', borderRadius:4 } ] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend:{ display:false }, tooltip:{ backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks:{ label: ctx => ctx.dataset.label+': '+(ctx.parsed.x*100).toFixed(1)+'%' } } }, scales: { x: { min:0, max:1, ticks:{ callback: v=>(v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } }, y: { ticks:{ color:'#e4e4e7', font:{size:11} }, grid:{ display:false } } } } });
 
-// ===== TABLE: CM =====
-(function renderCMTable(){
-  const tbody = document.querySelector('#tableCM tbody');
-  byCM.forEach(r => {
-    tbody.insertAdjacentHTML('beforeend', `
-      <tr>
-        <td><strong>${r.cm}</strong></td>
-        <td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td>
-      </tr>`);
-  });
-})();
-
-// ===== TABLE: Coordenador =====
-(function renderCoordTable(){
-  const tbody = document.querySelector('#tableCoord tbody');
-  byCoord.forEach(r => {
-    tbody.insertAdjacentHTML('beforeend', `
-      <tr>
-        <td><strong>${r.nome}</strong></td>
-        <td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td>
-      </tr>`);
-  });
-})();
+(function renderCMTable(){ const tbody = document.querySelector('#tableCM tbody'); byCM.forEach(r => { tbody.insertAdjacentHTML('beforeend', `<tr><td><strong>${r.cm}</strong></td><td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td><td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td><td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td><td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td></tr>`); }); })();
+(function renderCoordTable(){ const tbody = document.querySelector('#tableCoord tbody'); byCoord.forEach(r => { tbody.insertAdjacentHTML('beforeend', `<tr><td><strong>${r.nome}</strong></td><td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td><td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td><td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td><td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td></tr>`); }); })();
 </script>
 </body>
 </html>
