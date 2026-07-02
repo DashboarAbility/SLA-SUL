@@ -77,9 +77,7 @@
   }
   .header-top { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; position: relative; z-index: 1; }
 
-  /* ===== LOGO =====
-     Para inserir o logo: <img class="logo-img" src="ability-logo.png" alt="Ability">
-     Recomendado: PNG/SVG transparente (versão clara, pois o fundo é preto). */
+  /* ===== LOGO ===== */
   .logo-img { height: 46px; width: auto; display: block; flex-shrink: 0; }
 
   .header-text { flex: 1; min-width: 220px; }
@@ -210,10 +208,10 @@
     </div>
 
     <div class="header-bottom">
-      <div class="update">🕐 Última Atualização: 01/07/2026 23:37</div>
+      <div class="update">🕐 Última Atualização: 02/07/2026 09:10</div>
       <div class="total-badge">
         <div class="label">📋 Total de TAs</div>
-        <div class="value">7.701</div>
+        <div class="value">349</div>
       </div>
     </div>
   </header>
@@ -297,73 +295,66 @@
 
 <script>
 // ============================================================
-//  DADOS (extraídos da planilha "Avaliação Campo_SUL" - Atualizado em 01/07/2026 23:08)
-//  Para atualizar o dashboard, basta editar estes objetos abaixo.
+//  DADOS (extraídos da aba Dashboard - Atualizado em 02/07/2026 09:10)
 // ============================================================
 const summary = {
-  P1: { dentro: 4772, fora: 851, pct: 0.8487, sla: '4h' },
-  P2: { dentro: 1198, fora: 158, pct: 0.8835, sla: '12h' },
-  P3: { dentro: 365, fora: 216, pct: 0.6282, sla: '24h' },
-  P4: { dentro: 127, fora: 14, pct: 0.9007, sla: '10d' }
+  P1: { dentro: 224, fora: 35, pct: 0.8649, sla: '4h' },
+  P2: { dentro: 56, fora: 5, pct: 0.9180, sla: '12h' },
+  P3: { dentro: 15, fora: 9, pct: 0.6250, sla: '24h' },
+  P4: { dentro: 3, fora: 2, pct: 0.6000, sla: '10d' }
 };
 summary.TOTAL = {
   dentro: summary.P1.dentro + summary.P2.dentro + summary.P3.dentro + summary.P4.dentro,
   fora:   summary.P1.fora   + summary.P2.fora   + summary.P3.fora   + summary.P4.fora,
-  pct: 0.8391, sla: ''
+  pct: 0.8539, sla: ''
 };
 
 const byUF = [
-  { uf:'PR', p1:0.8303, p2:0.8595, p3:0.5769, p4:0.8537 },
-  { uf:'RS', p1:0.8891, p2:0.9119, p3:0.7239, p4:0.9836 },
-  { uf:'SC', p1:0.8124, p2:0.8547, p3:0.4857, p4:0.8205 }
+  { uf:'PR', p1:0.8404, p2:0.8000, p3:0.3750, p4:0.3333 },
+  { uf:'RS', p1:0.8987, p2:1.0000, p3:0.9000, p4:1.0000 },
+  { uf:'SC', p1:0.8605, p2:0.9286, p3:0.5000, p4:1.0000 }
 ];
 
 const byCoord = [
-  { nome:'ANDERSON PARENTE', p1:0.8189, p2:0.8933, p3:0.5758, p4:1.0000 },
-  { nome:'LUCAS BARROS', p1:0.7984, p2:0.8622, p3:0.5618, p4:0.7727 },
-  { nome:'JULIANO RONI MORAS', p1:0.8573, p2:0.8585, p3:0.4667, p4:0.8571 },
-  { nome:'CARLOS PREIS', p1:0.7753, p2:0.8596, p3:0.4118, p4:0.9231 },
-  { nome:'MAURICIO SPERAFICO', p1:0.9074, p2:0.9470, p3:0.8302, p4:1.0000 },
-  { nome:'ALEXANDRE MAZONI', p1:0.8349, p2:0.8041, p3:0.5882, p4:0.7500 },
-  { nome:'ANDREI ROSSI', p1:0.9276, p2:0.9593, p3:0.7541, p4:1.0000 },
-  { nome:'ELENICE CONRAD', p1:0.8488, p2:0.8969, p3:0.7031, p4:1.0000 },
-  { nome:'ESDRAS VIEIRA', p1:0.8622, p2:0.8367, p3:0.5400, p4:0.9474 },
-  { nome:'LUIS AUGUSTO', p1:0.9116, p2:0.9138, p3:0.8169, p4:1.0000 }
+  { nome:'ANDERSON PARENTE', p1:0.9130, p2:1.0000, p3:1.0000, p4:null },
+  { nome:'LUCAS BARROS', p1:0.8864, p2:0.7500, p3:0.7500, p4:0.5000 },
+  { nome:'JULIANO RONI MORAS', p1:0.8049, p2:0.7500, p3:0.0000, p4:0.0000 },
+  { nome:'CARLOS PREIS', p1:0.8519, p2:1.0000, p3:0.6000, p4:null },
+  { nome:'MAURICIO SPERAFICO', p1:0.9333, p2:1.0000, p3:0.6667, p4:1.0000 },
+  { nome:'ALEXANDRE MAZONI', p1:0.9474, p2:0.6667, p3:null, p4:1.0000 },
+  { nome:'ANDREI ROSSI', p1:1.0000, p2:1.0000, p3:1.0000, p4:null },
+  { nome:'ELENICE CONRAD', p1:0.7727, p2:1.0000, p3:0.0000, p4:null },
+  { nome:'ESDRAS VIEIRA', p1:0.8462, p2:1.0000, p3:1.0000, p4:null },
+  { nome:'LUIS AUGUSTO', p1:0.8235, p2:1.0000, p3:1.0000, p4:null }
 ];
 
 const byCM = [
-  { cm:'CTA', p1:0.8488, p2:0.8969, p3:0.7031, p4:1.0000 },
-  { cm:'SJP', p1:0.7980, p2:0.8291, p3:0.4528, p4:0.7500 },
-  { cm:'LDA', p1:0.7849, p2:0.9706, p3:0.8333, p4:null },
-  { cm:'BNU', p1:0.7203, p2:0.9167, p3:0.4737, p4:1.0000 },
-  { cm:'FNS', p1:0.8378, p2:0.8750, p3:0.7368, p4:0.7778 },
-  { cm:'CSL', p1:0.8838, p2:0.9552, p3:0.9130, p4:1.0000 },
-  { cm:'CSC', p1:0.8976, p2:0.7000, p3:0.5714, p4:1.0000 },
-  { cm:'POA', p1:0.9344, p2:0.8889, p3:0.8605, p4:1.0000 },
-  { cm:'NHO', p1:0.9316, p2:0.9385, p3:0.7667, p4:1.0000 },
-  { cm:'LGS', p1:0.9397, p2:0.8750, p3:0.5000, p4:1.0000 },
-  { cm:'SMA', p1:0.8326, p2:0.9125, p3:0.6667, p4:1.0000 },
-  { cm:'SAN', p1:0.8627, p2:0.7391, p3:0.5000, p4:1.0000 },
-  { cm:'CCO', p1:0.8168, p2:0.9245, p3:0.5000, p4:0.7500 },
-  { cm:'MGA', p1:0.8195, p2:0.9103, p3:0.3824, p4:0.7500 },
-  { cm:'CAN', p1:0.9234, p2:0.9600, p3:0.6970, p4:1.0000 },
-  { cm:'GRP', p1:0.8125, p2:0.8000, p3:0.6000, p4:1.0000 },
-  { cm:'OSR', p1:0.9341, p2:0.9583, p3:0.8214, p4:1.0000 },
-  { cm:'PLT', p1:0.8000, p2:0.8776, p3:0.4667, p4:1.0000 },
-  { cm:'JVE', p1:0.8148, p2:0.8158, p3:0.4375, p4:1.0000 },
-  { cm:'IAI', p1:0.7567, p2:0.8654, p3:0.3125, p4:0.8333 },
-  { cm:'SCR', p1:0.8708, p2:0.9296, p3:0.7500, p4:1.0000 },
-  { cm:'CUA', p1:0.8252, p2:0.6667, p3:0.4000, p4:0.7143 },
-  { cm:'PGO', p1:0.8121, p2:0.8857, p3:0.4286, p4:0.8000 },
-  { cm:'PAS', p1:0.8618, p2:0.9231, p3:0.6000, p4:0.9091 }
+  { cm:'CTA', p1:0.7727, p2:1.0000, p3:0.0000, p4:null },
+  { cm:'SJP', p1:0.9474, p2:null, p3:0.0000, p4:null },
+  { cm:'LDA', p1:1.0000, p2:1.0000, p3:1.0000, p4:0.5000 },
+  { cm:'BNU', p1:0.6923, p2:1.0000, p3:1.0000, p4:null },
+  { cm:'FNS', p1:0.9286, p2:0.6667, p3:null, p4:null },
+  { cm:'CSL', p1:0.9091, p2:1.0000, p3:1.0000, p4:1.0000 },
+  { cm:'CSC', p1:0.9167, p2:0.7500, p3:null, p4:null },
+  { cm:'POA', p1:0.7500, p2:null, p3:1.0000, p4:null },
+  { cm:'NHO', p1:1.0000, p2:1.0000, p3:0.0000, p4:null },
+  { cm:'LGS', p1:0.8000, p2:null, p3:null, p4:null },
+  { cm:'SMA', p1:0.8667, p2:null, p3:1.0000, p4:null },
+  { cm:'SAN', p1:0.8571, p2:1.0000, p3:null, p4:null },
+  { cm:'CCO', p1:0.7500, p2:1.0000, p3:0.0000, p4:null },
+  { cm:'MGA', p1:0.7500, p2:0.5000, p3:0.0000, p4:0.0000 },
+  { cm:'CAN', p1:1.0000, p2:1.0000, p3:null, p4:null },
+  { cm:'GRP', p1:0.6364, p2:1.0000, p3:1.0000, p4:null },
+  { cm:'OSR', p1:1.0000, p2:1.0000, p3:1.0000, p4:null },
+  { cm:'PLT', p1:1.0000, p2:1.0000, p3:1.0000, p4:null },
+  { cm:'JVE', p1:0.8235, p2:1.0000, p3:0.0000, p4:null },
+  { cm:'IAI', p1:0.9583, p2:1.0000, p3:0.5000, p4:null }
 ];
 
 // ===== HELPERS =====
 const fmt = v => (v == null || isNaN(v)) ? '—' : (v * 100).toFixed(1) + '%';
 const pctColor = (v, priority) => {
   if (v == null) return 'na';
-  // P1: vermelho < 80%, branco >= 80%
-  // P2, P3, P4: vermelho < 70%, branco >= 70%
   const threshold = priority === 'p1' ? 0.80 : 0.70;
   if (v >= threshold) return 'good';
   return 'bad';
