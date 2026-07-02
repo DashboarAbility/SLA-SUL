@@ -200,6 +200,7 @@
   <!-- ===================== HEADER ===================== -->
   <header>
     <div class="header-top">
+      <!-- LOGO — ajuste o nome do arquivo se necessário -->
       <img class="logo-img" src="ability-logo.png" alt="Logo">
 
       <div class="header-text">
@@ -209,10 +210,10 @@
     </div>
 
     <div class="header-bottom">
-      <div class="update">🕐 Última Atualização: 20/06/2026 20:13</div>
+      <div class="update">🕐 Última Atualização: 01/07/2026 23:37</div>
       <div class="total-badge">
         <div class="label">📋 Total de TAs</div>
-        <div class="value">5.036</div>
+        <div class="value">7.701</div>
       </div>
     </div>
   </header>
@@ -290,71 +291,71 @@
   </div>
 
   <footer>
-    Dados de referência: 06/2026 · Regional Sul · <span class="brand">Ability</span> · Dashboard gerado a partir da planilha de avaliação de campo
+    Dados de referência: 07/2026 · Regional Sul · <span class="brand">Ability</span> · Dashboard gerado a partir da planilha de avaliação de campo
   </footer>
 </div>
 
 <script>
 // ============================================================
-//  DADOS (extraídos da planilha "Avaliação Campo_SUL_20062026")
+//  DADOS (extraídos da planilha "Avaliação Campo_SUL" - Atualizado em 01/07/2026 23:08)
 //  Para atualizar o dashboard, basta editar estes objetos abaixo.
 // ============================================================
 const summary = {
-  P1: { dentro: 3140, fora: 561, pct: 0.8484, sla: '4h' },
-  P2: { dentro: 764,  fora: 112, pct: 0.8721, sla: '12h' },
-  P3: { dentro: 222,  fora: 132, pct: 0.6271, sla: '24h' },
-  P4: { dentro: 98,   fora: 7,   pct: 0.9333, sla: '10d' }
+  P1: { dentro: 4772, fora: 851, pct: 0.8487, sla: '4h' },
+  P2: { dentro: 1198, fora: 158, pct: 0.8835, sla: '12h' },
+  P3: { dentro: 365, fora: 216, pct: 0.6282, sla: '24h' },
+  P4: { dentro: 127, fora: 14, pct: 0.9007, sla: '10d' }
 };
 summary.TOTAL = {
   dentro: summary.P1.dentro + summary.P2.dentro + summary.P3.dentro + summary.P4.dentro,
   fora:   summary.P1.fora   + summary.P2.fora   + summary.P3.fora   + summary.P4.fora,
-  pct: 0.8388, sla: ''
+  pct: 0.8391, sla: ''
 };
 
 const byUF = [
-  { uf:'PR', p1:0.8278, p2:0.8612, p3:0.5396, p4:0.8846 },
-  { uf:'RS', p1:0.8971, p2:0.9012, p3:0.7160, p4:1.0000 },
-  { uf:'SC', p1:0.7989, p2:0.8263, p3:0.5849, p4:0.8824 }
+  { uf:'PR', p1:0.8303, p2:0.8595, p3:0.5769, p4:0.8537 },
+  { uf:'RS', p1:0.8891, p2:0.9119, p3:0.7239, p4:0.9836 },
+  { uf:'SC', p1:0.8124, p2:0.8547, p3:0.4857, p4:0.8205 }
 ];
 
 const byCoord = [
-  { nome:'ANDERSON PARENTE',  p1:0.8095, p2:0.8559, p3:0.6316, p4:1.0000 },
-  { nome:'LUCAS BARROS',      p1:0.7862, p2:0.8647, p3:0.4828, p4:0.7857 },
-  { nome:'JULIANO RONI MORAS',p1:0.8442, p2:0.8519, p3:0.4667, p4:0.8750 },
-  { nome:'CARLOS PREIS',      p1:0.7534, p2:0.8378, p3:0.4545, p4:1.0000 },
-  { nome:'MAURICIO SPERAFICO',p1:0.9085, p2:0.9419, p3:0.8276, p4:1.0000 },
-  { nome:'ALEXANDRE MAZONI',  p1:0.8323, p2:0.7576, p3:0.7059, p4:0.8462 },
-  { nome:'ANDREI ROSSI',      p1:0.9220, p2:0.9487, p3:0.7500, p4:1.0000 },
-  { nome:'ELENICE CONRAD',    p1:0.8687, p2:0.9048, p3:0.7000, p4:1.0000 },
-  { nome:'ESDRAS VIEIRA',     p1:0.9070, p2:0.8125, p3:0.4815, p4:1.0000 },
-  { nome:'LUIS AUGUSTO',      p1:0.9199, p2:0.9268, p3:0.7907, p4:1.0000 }
+  { nome:'ANDERSON PARENTE', p1:0.8189, p2:0.8933, p3:0.5758, p4:1.0000 },
+  { nome:'LUCAS BARROS', p1:0.7984, p2:0.8622, p3:0.5618, p4:0.7727 },
+  { nome:'JULIANO RONI MORAS', p1:0.8573, p2:0.8585, p3:0.4667, p4:0.8571 },
+  { nome:'CARLOS PREIS', p1:0.7753, p2:0.8596, p3:0.4118, p4:0.9231 },
+  { nome:'MAURICIO SPERAFICO', p1:0.9074, p2:0.9470, p3:0.8302, p4:1.0000 },
+  { nome:'ALEXANDRE MAZONI', p1:0.8349, p2:0.8041, p3:0.5882, p4:0.7500 },
+  { nome:'ANDREI ROSSI', p1:0.9276, p2:0.9593, p3:0.7541, p4:1.0000 },
+  { nome:'ELENICE CONRAD', p1:0.8488, p2:0.8969, p3:0.7031, p4:1.0000 },
+  { nome:'ESDRAS VIEIRA', p1:0.8622, p2:0.8367, p3:0.5400, p4:0.9474 },
+  { nome:'LUIS AUGUSTO', p1:0.9116, p2:0.9138, p3:0.8169, p4:1.0000 }
 ];
 
 const byCM = [
-  { cm:'CTA', p1:0.8687, p2:0.9048, p3:0.7000, p4:1.0000 },
-  { cm:'SJP', p1:0.7795, p2:0.8333, p3:0.3947, p4:0.8182 },
-  { cm:'LDA', p1:0.7928, p2:1.0000, p3:0.7692, p4:null },
-  { cm:'BNU', p1:0.6765, p2:0.8824, p3:0.5714, p4:1.0000 },
-  { cm:'FNS', p1:0.8361, p2:0.8718, p3:0.8182, p4:0.7778 },
-  { cm:'CSL', p1:0.8938, p2:0.9500, p3:0.9231, p4:1.0000 },
-  { cm:'CSC', p1:0.9023, p2:0.6667, p3:0.3333, p4:1.0000 },
-  { cm:'POA', p1:0.9317, p2:0.9091, p3:0.8800, p4:1.0000 },
-  { cm:'NHO', p1:0.9226, p2:0.9348, p3:0.7500, p4:1.0000 },
-  { cm:'LGS', p1:0.9398, p2:0.8824, p3:0.7500, p4:1.0000 },
-  { cm:'SMA', p1:0.8235, p2:0.9074, p3:0.6667, p4:1.0000 },
-  { cm:'SAN', p1:0.8879, p2:0.7083, p3:0.3333, p4:1.0000 },
-  { cm:'CCO', p1:0.7660, p2:0.9063, p3:0.6000, p4:0.7500 },
-  { cm:'MGA', p1:0.7890, p2:0.9107, p3:0.4211, p4:1.0000 },
-  { cm:'CAN', p1:0.9104, p2:0.9362, p3:0.7308, p4:1.0000 },
-  { cm:'GRP', p1:0.8462, p2:0.6667, p3:0.6667, p4:1.0000 },
-  { cm:'OSR', p1:0.9403, p2:0.9677, p3:0.7778, p4:1.0000 },
-  { cm:'PLT', p1:0.7879, p2:0.8070, p3:0.6000, p4:1.0000 },
-  { cm:'JVE', p1:0.8061, p2:0.8182, p3:0.6250, p4:1.0000 },
-  { cm:'IAI', p1:0.7361, p2:0.8286, p3:0.1429, p4:1.0000 },
-  { cm:'SCR', p1:0.8972, p2:0.9388, p3:0.6667, p4:1.0000 },
-  { cm:'CUA', p1:0.8205, p2:0.5926, p3:0.5000, p4:1.0000 },
-  { cm:'PGO', p1:0.7889, p2:0.8846, p3:0.2500, p4:0.5000 },
-  { cm:'PAS', p1:0.9205, p2:0.9167, p3:0.6667, p4:1.0000 }
+  { cm:'CTA', p1:0.8488, p2:0.8969, p3:0.7031, p4:1.0000 },
+  { cm:'SJP', p1:0.7980, p2:0.8291, p3:0.4528, p4:0.7500 },
+  { cm:'LDA', p1:0.7849, p2:0.9706, p3:0.8333, p4:null },
+  { cm:'BNU', p1:0.7203, p2:0.9167, p3:0.4737, p4:1.0000 },
+  { cm:'FNS', p1:0.8378, p2:0.8750, p3:0.7368, p4:0.7778 },
+  { cm:'CSL', p1:0.8838, p2:0.9552, p3:0.9130, p4:1.0000 },
+  { cm:'CSC', p1:0.8976, p2:0.7000, p3:0.5714, p4:1.0000 },
+  { cm:'POA', p1:0.9344, p2:0.8889, p3:0.8605, p4:1.0000 },
+  { cm:'NHO', p1:0.9316, p2:0.9385, p3:0.7667, p4:1.0000 },
+  { cm:'LGS', p1:0.9397, p2:0.8750, p3:0.5000, p4:1.0000 },
+  { cm:'SMA', p1:0.8326, p2:0.9125, p3:0.6667, p4:1.0000 },
+  { cm:'SAN', p1:0.8627, p2:0.7391, p3:0.5000, p4:1.0000 },
+  { cm:'CCO', p1:0.8168, p2:0.9245, p3:0.5000, p4:0.7500 },
+  { cm:'MGA', p1:0.8195, p2:0.9103, p3:0.3824, p4:0.7500 },
+  { cm:'CAN', p1:0.9234, p2:0.9600, p3:0.6970, p4:1.0000 },
+  { cm:'GRP', p1:0.8125, p2:0.8000, p3:0.6000, p4:1.0000 },
+  { cm:'OSR', p1:0.9341, p2:0.9583, p3:0.8214, p4:1.0000 },
+  { cm:'PLT', p1:0.8000, p2:0.8776, p3:0.4667, p4:1.0000 },
+  { cm:'JVE', p1:0.8148, p2:0.8158, p3:0.4375, p4:1.0000 },
+  { cm:'IAI', p1:0.7567, p2:0.8654, p3:0.3125, p4:0.8333 },
+  { cm:'SCR', p1:0.8708, p2:0.9296, p3:0.7500, p4:1.0000 },
+  { cm:'CUA', p1:0.8252, p2:0.6667, p3:0.4000, p4:0.7143 },
+  { cm:'PGO', p1:0.8121, p2:0.8857, p3:0.4286, p4:0.8000 },
+  { cm:'PAS', p1:0.8618, p2:0.9231, p3:0.6000, p4:0.9091 }
 ];
 
 // ===== HELPERS =====
