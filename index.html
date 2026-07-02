@@ -360,10 +360,12 @@ const byCM = [
 
 // ===== HELPERS =====
 const fmt = v => (v == null || isNaN(v)) ? '—' : (v * 100).toFixed(1) + '%';
-const pctColor = v => {
+const pctColor = (v, priority) => {
   if (v == null) return 'na';
-  if (v >= 0.80) return 'good';
-  if (v >= 0.60) return 'mid';
+  // P1: vermelho < 80%, branco >= 80%
+  // P2, P3, P4: vermelho < 70%, branco >= 70%
+  const threshold = priority === 'p1' ? 0.80 : 0.70;
+  if (v >= threshold) return 'good';
   return 'bad';
 };
 Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
@@ -504,10 +506,10 @@ new Chart(document.getElementById('chartCoord'), {
     tbody.insertAdjacentHTML('beforeend', `
       <tr>
         <td><strong>${r.cm}</strong></td>
-        <td class="num"><span class="pill ${pctColor(r.p1)}">${fmt(r.p1)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p2)}">${fmt(r.p2)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p3)}">${fmt(r.p3)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p4)}">${fmt(r.p4)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td>
       </tr>`);
   });
 })();
@@ -519,10 +521,10 @@ new Chart(document.getElementById('chartCoord'), {
     tbody.insertAdjacentHTML('beforeend', `
       <tr>
         <td><strong>${r.nome}</strong></td>
-        <td class="num"><span class="pill ${pctColor(r.p1)}">${fmt(r.p1)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p2)}">${fmt(r.p2)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p3)}">${fmt(r.p3)}</span></td>
-        <td class="num"><span class="pill ${pctColor(r.p4)}">${fmt(r.p4)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td>
+        <td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td>
       </tr>`);
   });
 })();
