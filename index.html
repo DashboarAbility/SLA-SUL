@@ -114,161 +114,260 @@
   footer { text-align: center; color: var(--muted-dim); font-size: .8rem; padding: 28px 0 12px; border-top: 1px solid var(--border); margin-top: 24px; }
   footer .brand { color: var(--accent); font-weight: 600; }
   @media (max-width: 1100px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .charts-row { grid-template-columns: 1fr; } }
-  @media (max-width: 700px) { .container { padding: 12px; } header { padding: 22px 20px; } header h1 { font-size: 1.25rem; } .header-bottom .total-badge { margin-left: 0; width: 100%; text-align: center; } .cards-grid { grid-template-columns: repeat(2, 1fr); } .pcard { padding: 16px; } .pcard .pct { font-size: 1.75rem; } .chart-wrap { height: 280px; } .logo-img { height: 38px; } }
-  @media (max-width: 440px) { .cards-grid { grid-template-columns: 1fr; } .header-top { gap: 12px; } }
+  @media (max-width: 700px) { .container { padding: 12px; } header { padding: 22px 20px; } header h1 { font-size: 1.25rem; } .header-bottom .total-badge { margin-left: 0; width: 100%; text-align: center; } .cards-grid { grid-template-columns: repeat(2, 1fr); } .pcard { padding: 16px; } .pcard .pct { font-size: 1.75rem; } .chart-wrap { height: 280px; } }
+  @media (max-width: 480px) { .cards-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
     <div class="header-top">
-      <img class="logo-img" src="ability-logo.png" alt="Logo">
       <div class="header-text">
-        <h1>Dashboard SLA — Regional Sul</h1>
-        <div class="subtitle">Análise de Performance por Prioridade</div>
+        <h1>📊 Dashboard SLA — Regional Sul</h1>
+        <p class="subtitle">Análise de Performance por Prioridade</p>
       </div>
     </div>
     <div class="header-bottom">
-      <div class="update">🕐 Última Atualização: 07/07/2026 14:08</div>
+      <span class="update">🕐 Última atualização: <strong>08/07/2026 10:57</strong></span>
       <div class="total-badge">
-        <div class="label">📋 Total de TAs</div>
-        <div class="value">1442</div>
+        <div class="label">Total de TAs</div>
+        <div class="value">1.696</div>
       </div>
     </div>
   </header>
-  <div class="cards-grid" id="cards-grid"></div>
-  <div class="section-title"><span class="bar"></span> Visão Geral de SLA</div>
+
+  <section class="cards-grid">
+    <div class="pcard p1">
+      <div class="ptitle"><span class="dot"></span>P1</div>
+      <div class="psla">SLA: 4 horas</div>
+      <div class="pct">84%</div>
+      <div class="pstats"><span class="in">✓ 1065</span><span class="out">✗ 201</span></div>
+      <div class="pbar"><div class="fill" style="width:84%"></div></div>
+    </div>
+    <div class="pcard p2">
+      <div class="ptitle"><span class="dot"></span>P2</div>
+      <div class="psla">SLA: 12 horas</div>
+      <div class="pct">90%</div>
+      <div class="pstats"><span class="in">✓ 251</span><span class="out">✗ 27</span></div>
+      <div class="pbar"><div class="fill" style="width:90%"></div></div>
+    </div>
+    <div class="pcard p3">
+      <div class="ptitle"><span class="dot"></span>P3</div>
+      <div class="psla">SLA: 24 horas</div>
+      <div class="pct low">68%</div>
+      <div class="pstats"><span class="in">✓ 85</span><span class="out">✗ 40</span></div>
+      <div class="pbar"><div class="fill" style="width:68%"></div></div>
+    </div>
+    <div class="pcard p4">
+      <div class="ptitle"><span class="dot"></span>P4</div>
+      <div class="psla">SLA: 10 dias</div>
+      <div class="pct">74%</div>
+      <div class="pstats"><span class="in">✓ 20</span><span class="out">✗ 7</span></div>
+      <div class="pbar"><div class="fill" style="width:74%"></div></div>
+    </div>
+    <div class="pcard ptotal">
+      <div class="ptitle"><span class="dot"></span>TOTAL</div>
+      <div class="psla">Todas as prioridades</div>
+      <div class="pct">84%</div>
+      <div class="pstats"><span class="in">✓ 1421</span><span class="out">✗ 275</span></div>
+      <div class="pbar"><div class="fill" style="width:84%"></div></div>
+    </div>
+  </section>
+
+  <div class="section-title"><span class="bar"></span>Análise por UF e Coordenador</div>
   <div class="charts-row">
     <div class="chart-card">
-      <h3>🥧 Dentro x Fora do SLA (Total)</h3>
-      <div class="h-sub">Distribuição geral de todos os TAs</div>
-      <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
+      <h3>📍 % SLA Dentro por UF</h3>
+      <p class="h-sub">Comparativo entre estados</p>
+      <div class="chart-wrap"><canvas id="chartUF"></canvas></div>
     </div>
     <div class="chart-card">
-      <h3>📈 % Dentro do SLA por Prioridade</h3>
-      <div class="h-sub">Comparativo de aderência entre P1, P2, P3 e P4</div>
-      <div class="chart-wrap"><canvas id="chartPriority"></canvas></div>
-    </div>
-  </div>
-  <div class="section-title"><span class="bar"></span> 📍 % SLA Dentro por UF</div>
-  <div class="chart-card">
-    <div class="legend">
-      <div class="legend-item" style="color:#f87171"><span class="sw" style="background:#f87171"></span><span style="color:var(--muted)">P1 (4h)</span></div>
-      <div class="legend-item" style="color:#fbbf24"><span class="sw" style="background:#fbbf24"></span><span style="color:var(--muted)">P2 (12h)</span></div>
-      <div class="legend-item" style="color:#60a5fa"><span class="sw" style="background:#60a5fa"></span><span style="color:var(--muted)">P3 (24h)</span></div>
-      <div class="legend-item" style="color:#a78bfa"><span class="sw" style="background:#a78bfa"></span><span style="color:var(--muted)">P4 (10d)</span></div>
-    </div>
-    <div class="chart-wrap"><canvas id="chartUF"></canvas></div>
-  </div>
-  <div class="section-title"><span class="bar"></span> 👥 % SLA Dentro por Coordenador</div>
-  <div class="charts-row">
-    <div class="chart-card full">
-      <div class="legend">
-        <div class="legend-item" style="color:#f87171"><span class="sw" style="background:#f87171"></span><span style="color:var(--muted)">P1 (4h)</span></div>
-        <div class="legend-item" style="color:#fbbf24"><span class="sw" style="background:#fbbf24"></span><span style="color:var(--muted)">P2 (12h)</span></div>
-        <div class="legend-item" style="color:#60a5fa"><span class="sw" style="background:#60a5fa"></span><span style="color:var(--muted)">P3 (24h)</span></div>
-        <div class="legend-item" style="color:#a78bfa"><span class="sw" style="background:#a78bfa"></span><span style="color:var(--muted)">P4 (10d)</span></div>
-      </div>
+      <h3>👥 % SLA Dentro por Coordenador</h3>
+      <p class="h-sub">Performance individual (arredondado para cima)</p>
       <div class="chart-wrap tall"><canvas id="chartCoord"></canvas></div>
     </div>
   </div>
-  <div class="section-title"><span class="bar"></span> 🏢 % SLA Dentro por CM</div>
-  <div class="table-card">
-    <h3>Detalhamento por Centro de Manutenção</h3>
-    <div class="h-sub">% de TAs dentro do SLA por prioridade. Cores: 🟢 ≥80% · 🟡 60–79% · 🔴 &lt;60%</div>
-    <div class="table-scroll">
-      <table id="tableCM"><thead><tr><th>CM</th><th class="num">P1 (4h)</th><th class="num">P2 (12h)</th><th class="num">P3 (24h)</th><th class="num">P4 (10d)</th></tr></thead><tbody></tbody></table>
+
+  <div class="section-title"><span class="bar"></span>Detalhamento por Centro de Manutenção</div>
+  <div class="charts-row">
+    <div class="chart-card full">
+      <h3>🏢 % SLA Dentro por CM</h3>
+      <p class="h-sub">Todos os centros de manutenção</p>
+      <div class="legend">
+        <span class="legend-item"><span class="sw" style="background:var(--p1);color:var(--p1)"></span>P1 (4h)</span>
+        <span class="legend-item"><span class="sw" style="background:var(--p2);color:var(--p2)"></span>P2 (12h)</span>
+        <span class="legend-item"><span class="sw" style="background:var(--p3);color:var(--p3)"></span>P3 (24h)</span>
+        <span class="legend-item"><span class="sw" style="background:var(--p4);color:var(--p4)"></span>P4 (10d)</span>
+      </div>
+      <div class="chart-wrap tall"><canvas id="chartCM"></canvas></div>
     </div>
   </div>
-  <div class="section-title"><span class="bar"></span> 👥 Detalhamento por Coordenador</div>
-  <div class="table-card">
-    <div class="table-scroll">
-      <table id="tableCoord"><thead><tr><th>Coordenador</th><th class="num">P1 (4h)</th><th class="num">P2 (12h)</th><th class="num">P3 (24h)</th><th class="num">P4 (10d)</th></tr></thead><tbody></tbody></table>
+
+  <div class="section-title"><span class="bar"></span>Tabelas Detalhadas</div>
+  <div class="charts-row">
+    <div class="table-card">
+      <h3>👥 Por Coordenador</h3>
+      <p class="h-sub">% SLA Dentro por prioridade (arredondado ↑)</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Coordenador</th><th class="num">P1</th><th class="num">P2</th><th class="num">P3</th><th class="num">P4</th></tr></thead>
+          <tbody id="tblCoord"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="table-card">
+      <h3>🏢 Por Centro de Manutenção</h3>
+      <p class="h-sub">% SLA Dentro por prioridade</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>CM</th><th class="num">P1</th><th class="num">P2</th><th class="num">P3</th><th class="num">P4</th></tr></thead>
+          <tbody id="tblCM"></tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <footer>Dados de referência: 07/2026 · Regional Sul · <span class="brand">Ability</span> · Dashboard gerado a partir da planilha de avaliação de campo</footer>
+
+  <footer>
+    Desenvolvido por <span class="brand">Ability</span> — Regional Sul © 2026
+  </footer>
 </div>
+
 <script>
+// === DADOS ATUALIZADOS EM 08/07/2026 10:57 ===
 const summary = {
-  P1: { dentro: 892, fora: 172, pct: 0.8383, sla: '4h' },
-  P2: { dentro: 219, fora: 25, pct: 0.8975, sla: '12h' },
-  P3: { dentro: 74, fora: 33, pct: 0.6916, sla: '24h' },
-  P4: { dentro: 20, fora: 7, pct: 0.7407, sla: '10d' }
+  P1: { dentro: 1065, fora: 201, pct: 0.8412, sla: "4h" },
+  P2: { dentro: 251, fora: 27, pct: 0.9029, sla: "12h" },
+  P3: { dentro: 85, fora: 40, pct: 0.6800, sla: "24h" },
+  P4: { dentro: 20, fora: 7, pct: 0.7407, sla: "10d" }
 };
-summary.TOTAL = { dentro: 1205, fora: 237, pct: 0.8356, sla: '' };
+summary.TOTAL = { dentro: 1421, fora: 275, pct: 0.8379, sla: "" };
 
 const byUF = [
-  { uf:'PR', p1:0.8374, p2:0.8072, p3:0.5862, p4:0.6667 },
-  { uf:'RS', p1:0.8612, p2:0.9912, p3:0.7797, p4:0.7500 },
-  { uf:'SC', p1:0.8051, p2:0.8333, p3:0.5789, p4:0.8000 }
+  { uf: "PR", p1: 0.83, p2: 0.82, p3: 0.63, p4: 0.67 },
+  { uf: "RS", p1: 0.87, p2: 0.98, p3: 0.75, p4: 0.75 },
+  { uf: "SC", p1: 0.82, p2: 0.84, p3: 0.52, p4: 0.80 }
 ];
 
 const byCoord = [
-  { nome:'ANDERSON PARENTE', p1:0.8824, p2:1.0000, p3:0.9167, p4:0.5000 },
-  { nome:'LUCAS BARROS', p1:0.8171, p2:0.8286, p3:0.7059, p4:0.6667 },
-  { nome:'JULIANO RONI MORAS', p1:0.7975, p2:0.6667, p3:0.2500, p4:0.0000 },
-  { nome:'CARLOS PREIS', p1:0.8540, p2:0.8519, p3:0.7273, p4:0.7500 },
-  { nome:'MAURICIO SPERAFICO', p1:0.8611, p2:1.0000, p3:0.6250, p4:0.6667 },
-  { nome:'ALEXANDRE MAZONI', p1:0.8000, p2:0.8000, p3:0.5000, p4:1.0000 },
-  { nome:'ANDREI ROSSI', p1:0.9610, p2:1.0000, p3:0.6667, p4:0.7500 },
-  { nome:'ELENICE CONRAD', p1:0.8557, p2:0.9259, p3:0.5000, p4:1.0000 },
-  { nome:'ESDRAS VIEIRA', p1:0.7179, p2:0.9500, p3:1.0000, p4:1.0000 },
-  { nome:'LUIS AUGUSTO', p1:0.8774, p2:1.0000, p3:0.7667, p4:1.0000 }
+  { name: "ANDERSON PARENTE", p1: 0.90, p2: 1.00, p3: 0.92, p4: 0.50 },
+  { name: "LUCAS BARROS", p1: 0.81, p2: 0.84, p3: 0.71, p4: 0.67 },
+  { name: "JULIANO RONI MORAS", p1: 0.81, p2: 0.70, p3: 0.23, p4: 0.00 },
+  { name: "CARLOS PREIS", p1: 0.87, p2: 0.86, p3: 0.67, p4: 0.75 },
+  { name: "MAURICIO SPERAFICO", p1: 0.87, p2: 0.97, p3: 0.55, p4: 0.67 },
+  { name: "ALEXANDRE MAZONI", p1: 0.80, p2: 0.82, p3: 0.43, p4: 1.00 },
+  { name: "ANDREI ROSSI", p1: 0.96, p2: 1.00, p3: 0.67, p4: 0.75 },
+  { name: "ELENICE CONRAD", p1: 0.87, p2: 0.94, p3: 0.73, p4: 1.00 },
+  { name: "ESDRAS VIEIRA", p1: 0.74, p2: 0.96, p3: 0.84, p4: 1.00 },
+  { name: "LUIS AUGUSTO", p1: 0.90, p2: 1.00, p3: 0.77, p4: 1.00 }
 ];
 
 const byCM = [
-  { cm:'CTA', p1:0.8557, p2:0.9259, p3:0.5000, p4:1.0000 },
-  { cm:'SJP', p1:0.7808, p2:0.8182, p3:0.6250, p4:1.0000 },
-  { cm:'LDA', p1:0.9302, p2:1.0000, p3:0.7500, p4:0.5000 },
-  { cm:'BNU', p1:0.8500, p2:1.0000, p3:1.0000, p4:null },
-  { cm:'FNS', p1:0.8571, p2:0.8000, p3:1.0000, p4:null },
-  { cm:'CSL', p1:0.7907, p2:1.0000, p3:0.7500, p4:0.5000 },
-  { cm:'CSC', p1:0.9167, p2:0.6000, p3:null, p4:null },
-  { cm:'POA', p1:0.8961, p2:1.0000, p3:0.7586, p4:1.0000 },
-  { cm:'NHO', p1:0.9655, p2:1.0000, p3:0.5000, p4:1.0000 },
-  { cm:'LGS', p1:0.6000, p2:1.0000, p3:null, p4:null },
-  { cm:'SMA', p1:0.8750, p2:1.0000, p3:1.0000, p4:0.0000 },
-  { cm:'SAN', p1:0.8095, p2:1.0000, p3:1.0000, p4:1.0000 },
-  { cm:'CCO', p1:0.6923, p2:0.7500, p3:0.0000, p4:null },
-  { cm:'MGA', p1:0.8219, p2:0.6364, p3:0.3333, p4:0.0000 },
-  { cm:'CAN', p1:0.9649, p2:1.0000, p3:0.0000, p4:0.5000 },
-  { cm:'GRP', p1:0.6250, p2:1.0000, p3:0.5000, p4:null },
-  { cm:'OSR', p1:0.9500, p2:1.0000, p3:1.0000, p4:1.0000 },
-  { cm:'PLT', p1:0.8966, p2:1.0000, p3:0.8333, p4:0.6667 },
-  { cm:'JVE', p1:0.8542, p2:1.0000, p3:0.5000, p4:0.0000 },
-  { cm:'IAI', p1:0.8571, p2:0.6667, p3:0.6667, p4:1.0000 },
-  { cm:'SCR', p1:0.8276, p2:1.0000, p3:1.0000, p4:null },
-  { cm:'CUA', p1:0.6667, p2:0.8000, p3:0.2500, p4:1.0000 },
-  { cm:'PGO', p1:0.8438, p2:0.7500, p3:1.0000, p4:null },
-  { cm:'PAS', p1:0.6842, p2:0.9167, p3:1.0000, p4:1.0000 }
+  { cm: "CTA", p1: 0.86, p2: 0.94, p3: 0.73, p4: 1.00 },
+  { cm: "SJP", p1: 0.78, p2: 0.82, p3: 0.63, p4: 1.00 },
+  { cm: "LDA", p1: 0.88, p2: 1.00, p3: 0.75, p4: 0.50 },
+  { cm: "BNU", p1: 0.86, p2: 1.00, p3: 1.00, p4: null },
+  { cm: "FNS", p1: 0.84, p2: 0.82, p3: 1.00, p4: null },
+  { cm: "CSL", p1: 0.80, p2: 0.95, p3: 0.60, p4: 0.50 },
+  { cm: "CSC", p1: 0.88, p2: 0.64, p3: null, p4: null },
+  { cm: "POA", p1: 0.91, p2: 1.00, p3: 0.74, p4: 1.00 },
+  { cm: "NHO", p1: 0.95, p2: 1.00, p3: 0.50, p4: 1.00 },
+  { cm: "LGS", p1: 0.69, p2: 1.00, p3: null, p4: null },
+  { cm: "SMA", p1: 0.88, p2: 1.00, p3: 1.00, p4: 0.00 },
+  { cm: "SAN", p1: 0.84, p2: 1.00, p3: 0.50, p4: 1.00 },
+  { cm: "CCO", p1: 0.74, p2: 0.80, p3: 0.00, p4: null },
+  { cm: "MGA", p1: 0.83, p2: 0.67, p3: 0.29, p4: 0.00 },
+  { cm: "CAN", p1: 0.97, p2: 1.00, p3: 0.00, p4: 0.50 },
+  { cm: "GRP", p1: 0.61, p2: 1.00, p3: 0.50, p4: null },
+  { cm: "OSR", p1: 0.91, p2: 1.00, p3: 1.00, p4: 1.00 },
+  { cm: "PLT", p1: 0.92, p2: 1.00, p3: 0.83, p4: 0.67 },
+  { cm: "JVE", p1: 0.86, p2: 0.83, p3: 0.40, p4: 0.00 },
+  { cm: "IAI", p1: 0.87, p2: 0.76, p3: 0.67, p4: 1.00 },
+  { cm: "SCR", p1: 0.84, p2: 1.00, p3: 1.00, p4: null },
+  { cm: "CUA", p1: 0.67, p2: 0.80, p3: 0.20, p4: 1.00 },
+  { cm: "PGO", p1: 0.85, p2: 0.76, p3: 1.00, p4: null },
+  { cm: "PAS", p1: 0.68, p2: 0.93, p3: 1.00, p4: 1.00 }
 ];
 
-const fmt = v => (v == null || isNaN(v)) ? '—' : (v * 100).toFixed(1) + '%';
-const pctColor = (v, priority) => { if (v == null) return 'na'; const threshold = priority === 'p1' ? 0.80 : 0.70; return v >= threshold ? 'good' : 'bad'; };
-Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+// Chart defaults
 Chart.defaults.color = '#a1a1aa';
 Chart.defaults.borderColor = '#1f1f1f';
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
 
-(function renderCards(){
-  const grid = document.getElementById('cards-grid');
-  const items = [{ key:'P1', cls:'p1', icon:'🎯', label:'P1' },{ key:'P2', cls:'p2', icon:'🎯', label:'P2' },{ key:'P3', cls:'p3', icon:'🎯', label:'P3' },{ key:'P4', cls:'p4', icon:'🎯', label:'P4' },{ key:'TOTAL', cls:'ptotal', icon:'📈', label:'Total' }];
-  items.forEach(it => {
-    const s = summary[it.key];
-    const low = s.pct < 0.80 && it.key !== 'TOTAL' ? 'low' : '';
-    grid.insertAdjacentHTML('beforeend', `<div class="pcard ${it.cls}"><div class="ptitle"><span class="dot"></span>${it.icon} ${it.label}${s.sla ? ` <span style="font-weight:400;color:#71717a;font-size:.8rem">(${s.sla})</span>` : ''}</div><div class="psla">SLA de atendimento</div><div class="pct ${low}">${(s.pct*100).toFixed(1)}%</div><div class="pstats"><span class="in">✅ ${s.dentro.toLocaleString('pt-BR')} dentro</span><span class="out">❌ ${s.fora.toLocaleString('pt-BR')} fora</span></div><div class="pbar"><div class="fill" style="width:${(s.pct*100)}%"></div></div></div>`);
-  });
-})();
+const pColors = { p1: '#f87171', p2: '#fbbf24', p3: '#60a5fa', p4: '#a78bfa' };
 
-new Chart(document.getElementById('chartDonut'), { type: 'doughnut', data: { labels: ['Dentro do SLA', 'Fora do SLA'], datasets: [{ data: [summary.TOTAL.dentro, summary.TOTAL.fora], backgroundColor: ['#34d399', '#f87171'], borderColor: '#0d0d0d', borderWidth: 3, hoverOffset: 10 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true, pointStyle: 'circle', color:'#e4e4e7', font:{size:12} } }, tooltip: { backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, padding:12, callbacks: { label: ctx => { const total = ctx.dataset.data.reduce((a,b)=>a+b,0); return `${ctx.label}: ${ctx.parsed.toLocaleString('pt-BR')} (${(ctx.parsed/total*100).toFixed(1)}%)`; } } } } } });
+function pill(v) {
+  if (v === null || v === undefined) return '<span class="pill na">—</span>';
+  const pct = Math.round(v * 100);
+  const cls = pct >= 85 ? 'good' : pct >= 70 ? 'mid' : 'bad';
+  return `<span class="pill ${cls}">${pct}%</span>`;
+}
 
-new Chart(document.getElementById('chartPriority'), { type: 'bar', data: { labels: ['P1 (4h)','P2 (12h)','P3 (24h)','P4 (10d)'], datasets: [{ label: '% Dentro do SLA', data: [summary.P1.pct, summary.P2.pct, summary.P3.pct, summary.P4.pct], backgroundColor: ['#f87171','#fbbf24','#60a5fa','#a78bfa'], borderRadius: 8, maxBarThickness: 70 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display:false }, tooltip: { backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks: { label: ctx => (ctx.parsed.y*100).toFixed(1)+'%' } } }, scales: { y: { min:0, max:1, ticks: { callback: v => (v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } }, x: { ticks:{ color:'#e4e4e7' }, grid:{ display:false } } } } });
+// Tabela Coordenadores
+document.getElementById('tblCoord').innerHTML = byCoord.map(c =>
+  `<tr><td>${c.name}</td><td class="num">${pill(c.p1)}</td><td class="num">${pill(c.p2)}</td><td class="num">${pill(c.p3)}</td><td class="num">${pill(c.p4)}</td></tr>`
+).join('');
 
-new Chart(document.getElementById('chartUF'), { type: 'bar', data: { labels: byUF.map(d => d.uf), datasets: [ { label:'P1 (4h)', data: byUF.map(d=>d.p1), backgroundColor:'#f87171', borderRadius:5 }, { label:'P2 (12h)', data: byUF.map(d=>d.p2), backgroundColor:'#fbbf24', borderRadius:5 }, { label:'P3 (24h)', data: byUF.map(d=>d.p3), backgroundColor:'#60a5fa', borderRadius:5 }, { label:'P4 (10d)', data: byUF.map(d=>d.p4), backgroundColor:'#a78bfa', borderRadius:5 } ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend:{ display:false }, tooltip:{ backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks:{ label: ctx => ctx.dataset.label+': '+(ctx.parsed.y*100).toFixed(1)+'%' } } }, scales: { y: { min:0, max:1, ticks:{ callback: v=>(v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } }, x: { ticks:{ color:'#e4e4e7' }, grid:{ display:false } } } } });
+// Tabela CM
+document.getElementById('tblCM').innerHTML = byCM.map(c =>
+  `<tr><td>${c.cm}</td><td class="num">${pill(c.p1)}</td><td class="num">${pill(c.p2)}</td><td class="num">${pill(c.p3)}</td><td class="num">${pill(c.p4)}</td></tr>`
+).join('');
 
-new Chart(document.getElementById('chartCoord'), { type: 'bar', data: { labels: byCoord.map(d => d.nome), datasets: [ { label:'P1 (4h)', data: byCoord.map(d=>d.p1), backgroundColor:'#f87171', borderRadius:4 }, { label:'P2 (12h)', data: byCoord.map(d=>d.p2), backgroundColor:'#fbbf24', borderRadius:4 }, { label:'P3 (24h)', data: byCoord.map(d=>d.p3), backgroundColor:'#60a5fa', borderRadius:4 }, { label:'P4 (10d)', data: byCoord.map(d=>d.p4), backgroundColor:'#a78bfa', borderRadius:4 } ] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend:{ display:false }, tooltip:{ backgroundColor:'#0a0a0a', borderColor:'#2a2a2a', borderWidth:1, callbacks:{ label: ctx => ctx.dataset.label+': '+(ctx.parsed.x*100).toFixed(1)+'%' } } }, scales: { x: { min:0, max:1, ticks:{ callback: v=>(v*100)+'%', color:'#a1a1aa' }, grid:{ color:'#1a1a1a' } }, y: { ticks:{ color:'#e4e4e7', font:{size:11} }, grid:{ display:false } } } } });
+// Chart UF
+new Chart(document.getElementById('chartUF'), {
+  type: 'bar',
+  data: {
+    labels: byUF.map(u => u.uf),
+    datasets: [
+      { label: 'P1', data: byUF.map(u => u.p1 * 100), backgroundColor: pColors.p1 },
+      { label: 'P2', data: byUF.map(u => u.p2 * 100), backgroundColor: pColors.p2 },
+      { label: 'P3', data: byUF.map(u => u.p3 * 100), backgroundColor: pColors.p3 },
+      { label: 'P4', data: byUF.map(u => u.p4 * 100), backgroundColor: pColors.p4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+  }
+});
 
-(function renderCMTable(){ const tbody = document.querySelector('#tableCM tbody'); byCM.forEach(r => { tbody.insertAdjacentHTML('beforeend', `<tr><td><strong>${r.cm}</strong></td><td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td><td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td><td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td><td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td></tr>`); }); })();
-(function renderCoordTable(){ const tbody = document.querySelector('#tableCoord tbody'); byCoord.forEach(r => { tbody.insertAdjacentHTML('beforeend', `<tr><td><strong>${r.nome}</strong></td><td class="num"><span class="pill ${pctColor(r.p1, 'p1')}">${fmt(r.p1)}</span></td><td class="num"><span class="pill ${pctColor(r.p2, 'p2')}">${fmt(r.p2)}</span></td><td class="num"><span class="pill ${pctColor(r.p3, 'p3')}">${fmt(r.p3)}</span></td><td class="num"><span class="pill ${pctColor(r.p4, 'p4')}">${fmt(r.p4)}</span></td></tr>`); }); })();
+// Chart Coord
+new Chart(document.getElementById('chartCoord'), {
+  type: 'bar',
+  data: {
+    labels: byCoord.map(c => c.name.split(' ')[0]),
+    datasets: [
+      { label: 'P1', data: byCoord.map(c => c.p1 * 100), backgroundColor: pColors.p1 },
+      { label: 'P2', data: byCoord.map(c => c.p2 * 100), backgroundColor: pColors.p2 },
+      { label: 'P3', data: byCoord.map(c => c.p3 * 100), backgroundColor: pColors.p3 },
+      { label: 'P4', data: byCoord.map(c => c.p4 * 100), backgroundColor: pColors.p4 }
+    ]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } },
+    scales: { x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+  }
+});
+
+// Chart CM
+new Chart(document.getElementById('chartCM'), {
+  type: 'bar',
+  data: {
+    labels: byCM.map(c => c.cm),
+    datasets: [
+      { label: 'P1', data: byCM.map(c => c.p1 !== null ? c.p1 * 100 : null), backgroundColor: pColors.p1 },
+      { label: 'P2', data: byCM.map(c => c.p2 !== null ? c.p2 * 100 : null), backgroundColor: pColors.p2 },
+      { label: 'P3', data: byCM.map(c => c.p3 !== null ? c.p3 * 100 : null), backgroundColor: pColors.p3 },
+      { label: 'P4', data: byCM.map(c => c.p4 !== null ? c.p4 * 100 : null), backgroundColor: pColors.p4 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
+  }
+});
 </script>
 </body>
 </html>
