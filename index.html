@@ -192,7 +192,7 @@
   <div class="charts-row">
     <div class="chart-card full">
       <h3>🏢 % SLA Dentro por CM</h3>
-      <p class="h-sub">Todos os centros de manutenção</p>
+      <p class="h-sub">Todos os 24 centros de manutenção</p>
       <div class="legend">
         <span class="legend-item"><span class="sw" style="background:var(--p1);color:var(--p1)"></span>P1 (4h)</span>
         <span class="legend-item"><span class="sw" style="background:var(--p2);color:var(--p2)"></span>P2 (12h)</span>
@@ -217,8 +217,8 @@
     </div>
     <div class="table-card">
       <h3>🏢 Por Centro de Manutenção</h3>
-      <p class="h-sub">% SLA Dentro por prioridade</p>
-      <div class="table-scroll">
+      <p class="h-sub">% SLA Dentro por prioridade (24 CMs)</p>
+      <div class="table-scroll" style="max-height: 500px;">
         <table>
           <thead><tr><th>CM</th><th class="num">P1</th><th class="num">P2</th><th class="num">P3</th><th class="num">P4</th></tr></thead>
           <tbody id="tblCM"></tbody>
@@ -281,7 +281,11 @@ const byCM = [
   { cm: "OSR", p1: 0.92, p2: 1.00, p3: 0.80, p4: 1.00 },
   { cm: "PLT", p1: 0.83, p2: 0.88, p3: 0.75, p4: 0.75 },
   { cm: "JVE", p1: 0.85, p2: 0.71, p3: 0.40, p4: 0.00 },
-  { cm: "IAI", p1: 0.88, p2: 0.71, p3: 0.40, p4: 1.00 }
+  { cm: "IAI", p1: 0.88, p2: 0.71, p3: 0.40, p4: 1.00 },
+  { cm: "SCR", p1: 0.83, p2: 1.00, p3: 1.00, p4: null },
+  { cm: "CUA", p1: 0.69, p2: 0.86, p3: 0.17, p4: 1.00 },
+  { cm: "PGO", p1: 0.81, p2: 0.81, p3: 1.00, p4: null },
+  { cm: "PAS", p1: 0.71, p2: 0.83, p3: 1.00, p4: 0.50 }
 ];
 
 // Chart defaults
