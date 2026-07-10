@@ -7,21 +7,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg:            #000000;
-    --bg-elevated:   #0a0a0a;
-    --card-bg:       #0d0d0d;
+    --bg: #000000;
+    --bg-elevated: #0a0a0a;
+    --card-bg: #0d0d0d;
     --card-bg-hover: #141414;
-    --border:        #1f1f1f;
-    --border-light:  #2a2a2a;
-    --text:          #fafafa;
-    --text-secondary:#e4e4e7;
-    --muted:         #a1a1aa;
-    --muted-dim:     #71717a;
-    --green:  #34d399;
+    --border: #1f1f1f;
+    --border-light: #2a2a2a;
+    --text: #fafafa;
+    --text-secondary: #e4e4e7;
+    --muted: #a1a1aa;
+    --muted-dim: #71717a;
+    --green: #34d399;
     --green-bg: rgba(52, 211, 153, .12);
-    --red:    #f87171;
+    --red: #f87171;
     --red-bg: rgba(248, 113, 113, .12);
-    --amber:  #fbbf24;
+    --amber: #fbbf24;
     --amber-bg: rgba(251, 191, 36, .12);
     --shadow: 0 1px 3px rgba(0,0,0,.6);
     --shadow-lg: 0 16px 40px -12px rgba(0,0,0,.8);
@@ -116,12 +116,11 @@
   tbody tr:last-child td { border-bottom: none; }
   .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .8rem; font-weight: 600; border: 1px solid transparent; }
   .pill.good { background: var(--green-bg); color: var(--green); border-color: rgba(52,211,153,.25); }
-  .pill.mid  { background: var(--amber-bg); color: var(--amber); border-color: rgba(251,191,36,.25); }
-  .pill.bad  { background: var(--red-bg); color: var(--red); border-color: rgba(248,113,113,.25); }
-  .pill.na   { background: rgba(255,255,255,.04); color: var(--muted-dim); border-color: var(--border); }
-  /* P1 special formatting: white for >=80%, red for <80% */
-  .pill.p1-good { background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,.35); }
-  .pill.p1-bad  { background: var(--red-bg); color: #ff0000; border-color: rgba(255,0,0,.35); }
+  .pill.mid { background: var(--amber-bg); color: var(--amber); border-color: rgba(251,191,36,.25); }
+  .pill.bad { background: var(--red-bg); color: var(--red); border-color: rgba(248,113,113,.25); }
+  .pill.na { background: rgba(255,255,255,.04); color: var(--muted-dim); border-color: var(--border); }
+  .pill.p1-good { background: rgba(255,255,255,.08); color: #ffffff; border-color: rgba(255,255,255,.2); }
+  .pill.p1-bad { background: var(--red-bg); color: #ff6b6b; border-color: rgba(255,107,107,.35); }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); }
   .legend-item .sw { width: 12px; height: 12px; border-radius: 3px; box-shadow: 0 0 6px currentColor; }
@@ -143,7 +142,7 @@
       </div>
     </div>
     <div class="header-bottom">
-      <span class="update">🕐 Última atualização: <strong>10/07/2026 13:08</strong></span>
+      <span class="update">🕐 Última atualização: <strong>10/07/2026 13:23</strong></span>
       <div class="total-badge">
         <div class="label">Total de TAs</div>
         <div class="value">2.093</div>
@@ -220,9 +219,21 @@
 
   <div class="section-title"><span class="bar"></span>Tabelas Detalhadas</div>
   <div class="charts-row">
+    <div class="table-card" style="grid-column: 1 / -1;">
+      <h3>📍 Por UF</h3>
+      <p class="h-sub">% SLA Dentro por prioridade e tipo de planta</p>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>UF</th><th class="num">P1 Móv</th><th class="num">P1 Fix</th><th class="num">P2 Móv</th><th class="num">P2 Fix</th><th class="num">P3 Móv</th><th class="num">P3 Fix</th><th class="num">P4 Móv</th></tr></thead>
+          <tbody id="tblUF"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="charts-row">
     <div class="table-card">
       <h3>👥 Por Coordenador</h3>
-      <p class="h-sub">% SLA Dentro por prioridade (P1 Móvel / P1 Fixa / P2 Móvel / P2 Fixa / P3 Móvel / P3 Fixa / P4 Móvel)</p>
+      <p class="h-sub">% SLA Dentro por prioridade</p>
       <div class="table-scroll">
         <table>
           <thead><tr><th>Coordenador</th><th class="num">P1 Móv</th><th class="num">P1 Fix</th><th class="num">P2 Móv</th><th class="num">P2 Fix</th><th class="num">P3 Móv</th><th class="num">P3 Fix</th><th class="num">P4 Móv</th></tr></thead>
@@ -248,77 +259,59 @@
 </div>
 
 <script>
-// === DADOS ATUALIZADOS EM 10/07/2026 13:08 ===
-const summary = {
-  P1: { dentro: 1334, fora: 231, pct: 0.8524, sla: "4h" },
-  P2: { dentro: 304, fora: 41, pct: 0.8812, sla: "12h" },
-  P3: { dentro: 101, fora: 49, pct: 0.6733, sla: "24h" },
-  P4: { dentro: 24, fora: 9, pct: 0.7273, sla: "10d" }
-};
-summary.TOTAL = { dentro: 1763, fora: 330, pct: 0.8423, sla: "" };
+// === DADOS ATUALIZADOS EM 10/07/2026 13:23 ===
 
 const byUF = [
-  { uf: "PR", p1m: 0.82, p1f: 0.91, p2m: 0.80, p2f: 0.95, p3m: 0.63, p3f: 0.75, p4m: 0.67 },
-  { uf: "RS", p1m: 0.89, p1f: 0.78, p2m: 0.95, p2f: 0.94, p3m: 0.74, p3f: 0.86, p4m: 0.74 },
-  { uf: "SC", p1m: 0.83, p1f: 0.89, p2m: 0.81, p2f: 0.67, p3m: 0.48, p3f: 1.00, p4m: 0.80 }
+  { uf: "PR", p1m: 0.8184, p1f: 0.9102, p2m: 0.7955, p2f: 0.9500, p3m: 0.6316, p3f: 0.7500, p4m: 0.6667 },
+  { uf: "RS", p1m: 0.8861, p1f: 0.7753, p2m: 0.9524, p2f: 0.9412, p3m: 0.7391, p3f: 0.8571, p4m: 0.7368 },
+  { uf: "SC", p1m: 0.8276, p1f: 0.8889, p2m: 0.8143, p2f: 0.6667, p3m: 0.4828, p3f: 1.0000, p4m: 0.8000 }
 ];
 
 const byCoord = [
-  { name: "ANDERSON PARENTE", p1m: 0.88, p1f: 0.75, p2m: 0.90, p2f: 1.00, p3m: 0.89, p3f: 0.80, p4m: 0.60 },
-  { name: "LUCAS BARROS", p1m: 0.78, p1f: 0.92, p2m: 0.78, p2f: 0.93, p3m: 0.65, p3f: 1.00, p4m: 0.60 },
-  { name: "JULIANO RONI MORAS", p1m: 0.84, p1f: 0.77, p2m: 0.72, p2f: 1.00, p3m: 0.36, p3f: 0.00, p4m: 0.50 },
-  { name: "CARLOS PREIS", p1m: 0.86, p1f: 0.92, p2m: 0.80, p2f: 0.67, p3m: 0.50, p3f: 1.00, p4m: 0.75 },
-  { name: "MAURICIO SPERAFICO", p1m: 0.89, p1f: 0.71, p2m: 1.00, p2f: 0.75, p3m: 0.50, p3f: 1.00, p4m: 0.75 },
-  { name: "ALEXANDRE MAZONI", p1m: 0.80, p1f: 0.94, p2m: 0.82, p2f: null, p3m: 0.46, p3f: null, p4m: 1.00 },
-  { name: "ANDREI ROSSI", p1m: 0.97, p1f: 0.92, p2m: 1.00, p2f: null, p3m: 0.57, p3f: null, p4m: 0.75 },
-  { name: "ELENICE CONRAD", p1m: 0.82, p1f: 0.97, p2m: 0.93, p2f: 1.00, p3m: 0.79, p3f: null, p4m: 1.00 },
-  { name: "ESDRAS VIEIRA", p1m: 0.77, p1f: 0.55, p2m: 0.85, p2f: null, p3m: 0.83, p3f: null, p4m: 0.67 },
-  { name: "LUIS AUGUSTO", p1m: 0.92, p1f: 0.83, p2m: 1.00, p2f: 1.00, p3m: 0.78, p3f: null, p4m: 1.00 }
+  { name: "ANDERSON PARENTE", p1m: 0.8846, p1f: 0.7500, p2m: 0.8966, p2f: 1.0000, p3m: 0.8889, p3f: 0.8000, p4m: 0.6000 },
+  { name: "LUCAS BARROS", p1m: 0.7831, p1f: 0.9194, p2m: 0.7813, p2f: 0.9286, p3m: 0.6471, p3f: 1.0000, p4m: 0.6000 },
+  { name: "JULIANO RONI MORAS", p1m: 0.8394, p1f: 0.7727, p2m: 0.7222, p2f: 1.0000, p3m: 0.3636, p3f: 0.0000, p4m: 0.5000 },
+  { name: "CARLOS PREIS", p1m: 0.8571, p1f: 0.9167, p2m: 0.8000, p2f: 0.6667, p3m: 0.5000, p3f: 1.0000, p4m: 0.7500 },
+  { name: "MAURICIO SPERAFICO", p1m: 0.8864, p1f: 0.7143, p2m: 1.0000, p2f: 0.7500, p3m: 0.5000, p3f: 1.0000, p4m: 0.7500 },
+  { name: "ALEXANDRE MAZONI", p1m: 0.8034, p1f: 0.9375, p2m: 0.8182, p2f: null, p3m: 0.4615, p3f: null, p4m: 1.0000 },
+  { name: "ANDREI ROSSI", p1m: 0.9720, p1f: 0.9167, p2m: 1.0000, p2f: null, p3m: 0.5714, p3f: null, p4m: 0.7500 },
+  { name: "ELENICE CONRAD", p1m: 0.8182, p1f: 0.9697, p2m: 0.9286, p2f: 1.0000, p3m: 0.7857, p3f: null, p4m: 1.0000 },
+  { name: "ESDRAS VIEIRA", p1m: 0.7727, p1f: 0.5455, p2m: 0.8519, p2f: null, p3m: 0.8333, p3f: null, p4m: 0.6667 },
+  { name: "LUIS AUGUSTO", p1m: 0.9174, p1f: 0.8333, p2m: 1.0000, p2f: 1.0000, p3m: 0.7838, p3f: null, p4m: 1.0000 }
 ];
 
 const byCM = [
-  { cm: "CTA", p1m: 0.82, p1f: 0.97, p2m: 0.93, p2f: 1.00, p3m: 0.79, p3f: null, p4m: 1.00 },
-  { cm: "SJP", p1m: 0.78, p1f: 0.92, p2m: 0.69, p2f: 1.00, p3m: 0.43, p3f: 1.00, p4m: 0.50 },
-  { cm: "LDA", p1m: 0.86, p1f: 0.96, p2m: 1.00, p2f: 1.00, p3m: 0.83, p3f: null, p4m: 0.67 },
-  { cm: "BNU", p1m: 0.85, p1f: null, p2m: 1.00, p2f: 0.50, p3m: 1.00, p3f: 1.00, p4m: null },
-  { cm: "FNS", p1m: 0.86, p1f: 0.93, p2m: 0.80, p2f: null, p3m: 0.71, p3f: null, p4m: null },
-  { cm: "CSL", p1m: 0.88, p1f: 0.56, p2m: 1.00, p2f: 0.75, p3m: 0.67, p3f: null, p4m: 0.50 },
-  { cm: "CSC", p1m: 0.92, p1f: 0.88, p2m: 0.67, p2f: null, p3m: null, p3f: null, p4m: null },
-  { cm: "POA", p1m: 0.95, p1f: 0.85, p2m: 1.00, p2f: 1.00, p3m: 0.76, p3f: null, p4m: 1.00 },
-  { cm: "NHO", p1m: 0.90, p1f: 1.00, p2m: 1.00, p2f: null, p3m: 0.25, p3f: 1.00, p4m: 1.00 },
-  { cm: "LGS", p1m: 0.76, p1f: 0.50, p2m: 1.00, p2f: null, p3m: null, p3f: null, p4m: null },
-  { cm: "SMA", p1m: 0.94, p1f: 0.69, p2m: 1.00, p2f: null, p3m: 1.00, p3f: null, p4m: 0.00 },
-  { cm: "SAN", p1m: 0.85, p1f: 0.50, p2m: 0.89, p2f: null, p3m: 0.50, p3f: null, p4m: 1.00 },
-  { cm: "CCO", p1m: 0.80, p1f: 0.67, p2m: 0.71, p2f: null, p3m: 0.50, p3f: null, p4m: null },
-  { cm: "MGA", p1m: 0.83, p1f: 0.77, p2m: 0.73, p2f: 1.00, p3m: 0.29, p3f: 0.00, p4m: 0.50 },
-  { cm: "CAN", p1m: 0.98, p1f: 1.00, p2m: 1.00, p2f: null, p3m: 0.00, p3f: null, p4m: 0.50 },
-  { cm: "GRP", p1m: 0.65, p1f: null, p2m: 1.00, p2f: null, p3m: 0.50, p3f: null, p4m: null },
-  { cm: "OSR", p1m: 0.96, p1f: 0.00, p2m: 1.00, p2f: null, p3m: 0.80, p3f: null, p4m: 1.00 },
-  { cm: "PLT", p1m: 0.82, p1f: 1.00, p2m: 0.77, p2f: 1.00, p3m: 0.67, p3f: 0.80, p4m: 0.75 },
-  { cm: "JVE", p1m: 0.85, p1f: 0.88, p2m: 0.71, p2f: null, p3m: 0.25, p3f: 1.00, p4m: 0.00 },
-  { cm: "IAI", p1m: 0.87, p1f: 0.94, p2m: 0.70, p2f: 1.00, p3m: 0.40, p3f: null, p4m: 1.00 },
-  { cm: "SCR", p1m: 0.85, p1f: 0.67, p2m: 1.00, p2f: null, p3m: 1.00, p3f: null, p4m: null },
-  { cm: "CUA", p1m: 0.67, p1f: 1.00, p2m: 0.86, p2f: null, p3m: 0.17, p3f: null, p4m: 1.00 },
-  { cm: "PGO", p1m: 0.79, p1f: 0.86, p2m: 0.73, p2f: 0.90, p3m: 1.00, p3f: 1.00, p4m: null },
-  { cm: "PAS", p1m: 0.73, p1f: 0.56, p2m: 0.83, p2f: null, p3m: 1.00, p3f: null, p4m: 0.50 }
+  { cm: "CTA", p1m: 0.8182, p1f: 0.9697, p2m: 0.9286, p2f: 1.0000, p3m: 0.7857, p3f: null, p4m: 1.0000 },
+  { cm: "SJP", p1m: 0.7821, p1f: 0.9200, p2m: 0.6923, p2f: 1.0000, p3m: 0.4286, p3f: 1.0000, p4m: 0.5000 },
+  { cm: "LDA", p1m: 0.8571, p1f: 0.9565, p2m: 1.0000, p2f: 1.0000, p3m: 0.8333, p3f: null, p4m: 0.6667 },
+  { cm: "BNU", p1m: 0.8545, p1f: null, p2m: 1.0000, p2f: 0.5000, p3m: 1.0000, p3f: 1.0000, p4m: null },
+  { cm: "FNS", p1m: 0.8571, p1f: 0.9286, p2m: 0.8000, p2f: null, p3m: 0.7143, p3f: null, p4m: null },
+  { cm: "CSL", p1m: 0.8776, p1f: 0.5556, p2m: 1.0000, p2f: 0.7500, p3m: 0.6667, p3f: null, p4m: 0.5000 },
+  { cm: "CSC", p1m: 0.9200, p1f: 0.8750, p2m: 0.6667, p2f: null, p3m: null, p3f: null, p4m: null },
+  { cm: "POA", p1m: 0.9474, p1f: 0.8485, p2m: 1.0000, p2f: 1.0000, p3m: 0.7576, p3f: null, p4m: 1.0000 },
+  { cm: "NHO", p1m: 0.8974, p1f: 1.0000, p2m: 1.0000, p2f: null, p3m: 0.2500, p3f: 1.0000, p4m: 1.0000 },
+  { cm: "LGS", p1m: 0.7647, p1f: 0.5000, p2m: 1.0000, p2f: null, p3m: null, p3f: null, p4m: null },
+  { cm: "SMA", p1m: 0.9434, p1f: 0.6923, p2m: 1.0000, p2f: null, p3m: 1.0000, p3f: null, p4m: 0.0000 },
+  { cm: "SAN", p1m: 0.8462, p1f: 0.5000, p2m: 0.8889, p2f: null, p3m: 0.5000, p3f: null, p4m: 1.0000 },
+  { cm: "CCO", p1m: 0.8033, p1f: 0.6667, p2m: 0.7143, p2f: null, p3m: 0.5000, p3f: null, p4m: null },
+  { cm: "MGA", p1m: 0.8308, p1f: 0.7742, p2m: 0.7333, p2f: 1.0000, p3m: 0.2857, p3f: 0.0000, p4m: 0.5000 },
+  { cm: "CAN", p1m: 0.9756, p1f: 1.0000, p2m: 1.0000, p2f: null, p3m: 0.0000, p3f: null, p4m: 0.5000 },
+  { cm: "GRP", p1m: 0.6500, p1f: null, p2m: 1.0000, p2f: null, p3m: 0.5000, p3f: null, p4m: null },
+  { cm: "OSR", p1m: 0.9600, p1f: 0.0000, p2m: 1.0000, p2f: null, p3m: 0.8000, p3f: null, p4m: 1.0000 },
+  { cm: "PLT", p1m: 0.8235, p1f: 1.0000, p2m: 0.7692, p2f: 1.0000, p3m: 0.6667, p3f: 0.8000, p4m: 0.7500 },
+  { cm: "JVE", p1m: 0.8475, p1f: 0.8750, p2m: 0.7143, p2f: null, p3m: 0.2500, p3f: 1.0000, p4m: 0.0000 },
+  { cm: "IAI", p1m: 0.8676, p1f: 0.9375, p2m: 0.7000, p2f: 1.0000, p3m: 0.4000, p3f: null, p4m: 1.0000 },
+  { cm: "SCR", p1m: 0.8485, p1f: 0.6667, p2m: 1.0000, p2f: null, p3m: 1.0000, p3f: null, p4m: null },
+  { cm: "CUA", p1m: 0.6667, p1f: 1.0000, p2m: 0.8571, p2f: null, p3m: 0.1667, p3f: null, p4m: 1.0000 },
+  { cm: "PGO", p1m: 0.7879, p1f: 0.8571, p2m: 0.7273, p2f: 0.9000, p3m: 1.0000, p3f: 1.0000, p4m: null },
+  { cm: "PAS", p1m: 0.7324, p1f: 0.5556, p2m: 0.8333, p2f: null, p3m: 1.0000, p3f: null, p4m: 0.5000 }
 ];
 
-// Chart defaults
-Chart.defaults.color = '#a1a1aa';
-Chart.defaults.borderColor = '#1f1f1f';
-Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+// ============================================
+// FUNÇÕES DE FORMATAÇÃO CONDICIONAL
+// ============================================
 
-const pColors = { p1: '#ff6b6b', p2: '#ffc93c', p3: '#4dabf7', p4: '#b197fc' };
-
-// Standard pill function for P2, P3, P4
-function pill(v) {
-  if (v === null || v === undefined) return '<span class="pill na">—</span>';
-  const pct = Math.round(v * 100);
-  const cls = pct >= 85 ? 'good' : pct >= 70 ? 'mid' : 'bad';
-  return `<span class="pill ${cls}">${pct}%</span>`;
-}
-
-// Special P1 pill function: >=80% = white, <80% = red
+// Função para P1: branco >= 80%, vermelho < 80%
 function pillP1(v) {
   if (v === null || v === undefined) return '<span class="pill na">—</span>';
   const pct = Math.round(v * 100);
@@ -326,89 +319,119 @@ function pillP1(v) {
   return `<span class="pill ${cls}">${pct}%</span>`;
 }
 
-// Tabela Coordenadores - with P1 special formatting
-document.getElementById('tblCoord').innerHTML = byCoord.map(c =>
-  `<tr><td>${c.name}</td><td class="num">${pillP1(c.p1m)}</td><td class="num">${pillP1(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
-).join('');
+// Função para P2, P3, P4: verde >= 85%, amarelo 70-84%, VERMELHO < 70%
+function pill(v) {
+  if (v === null || v === undefined) return '<span class="pill na">—</span>';
+  const pct = Math.round(v * 100);
+  const cls = pct >= 85 ? 'good' : pct >= 70 ? 'mid' : 'bad';
+  return `<span class="pill ${cls}">${pct}%</span>`;
+}
 
-// Tabela CM - with P1 special formatting
-document.getElementById('tblCM').innerHTML = byCM.map(c =>
-  `<tr><td>${c.cm}</td><td class="num">${pillP1(c.p1m)}</td><td class="num">${pillP1(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
-).join('');
+// ============================================
+// POPULAR TABELAS COM FORMATAÇÃO CONDICIONAL
+// ============================================
 
-// Chart UF - média P1/P2/P3/P4
+// Tabela UF
+document.getElementById('tblUF').innerHTML = byUF.map(u => `
+  <tr>
+    <td>${u.uf}</td>
+    <td class="num">${pillP1(u.p1m)}</td>
+    <td class="num">${pillP1(u.p1f)}</td>
+    <td class="num">${pill(u.p2m)}</td>
+    <td class="num">${pill(u.p2f)}</td>
+    <td class="num">${pill(u.p3m)}</td>
+    <td class="num">${pill(u.p3f)}</td>
+    <td class="num">${pill(u.p4m)}</td>
+  </tr>
+`).join('');
+
+// Tabela Coordenador
+document.getElementById('tblCoord').innerHTML = byCoord.map(c => `
+  <tr>
+    <td>${c.name}</td>
+    <td class="num">${pillP1(c.p1m)}</td>
+    <td class="num">${pillP1(c.p1f)}</td>
+    <td class="num">${pill(c.p2m)}</td>
+    <td class="num">${pill(c.p2f)}</td>
+    <td class="num">${pill(c.p3m)}</td>
+    <td class="num">${pill(c.p3f)}</td>
+    <td class="num">${pill(c.p4m)}</td>
+  </tr>
+`).join('');
+
+// Tabela CM
+document.getElementById('tblCM').innerHTML = byCM.map(m => `
+  <tr>
+    <td>${m.cm}</td>
+    <td class="num">${pillP1(m.p1m)}</td>
+    <td class="num">${pillP1(m.p1f)}</td>
+    <td class="num">${pill(m.p2m)}</td>
+    <td class="num">${pill(m.p2f)}</td>
+    <td class="num">${pill(m.p3m)}</td>
+    <td class="num">${pill(m.p3f)}</td>
+    <td class="num">${pill(m.p4m)}</td>
+  </tr>
+`).join('');
+
+// ============================================
+// GRÁFICOS
+// ============================================
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: true, position: 'top', labels: { color: '#a1a1aa', font: { size: 11 } } }
+  },
+  scales: {
+    x: { ticks: { color: '#a1a1aa' }, grid: { color: '#1f1f1f' } },
+    y: { min: 0, max: 100, ticks: { color: '#a1a1aa', callback: v => v + '%' }, grid: { color: '#1f1f1f' } }
+  }
+};
+
+// Gráfico UF
 new Chart(document.getElementById('chartUF'), {
   type: 'bar',
   data: {
     labels: byUF.map(u => u.uf),
     datasets: [
-      { label: 'P1', data: byUF.map(u => ((u.p1m + u.p1f) / 2) * 100), backgroundColor: pColors.p1 },
-      { label: 'P2', data: byUF.map(u => ((u.p2m + u.p2f) / 2) * 100), backgroundColor: pColors.p2 },
-      { label: 'P3', data: byUF.map(u => ((u.p3m + u.p3f) / 2) * 100), backgroundColor: pColors.p3 },
-      { label: 'P4', data: byUF.map(u => u.p4m * 100), backgroundColor: pColors.p4 }
+      { label: 'P1', data: byUF.map(u => u.p1m ? Math.round(u.p1m * 100) : 0), backgroundColor: '#ff6b6b' },
+      { label: 'P2', data: byUF.map(u => u.p2m ? Math.round(u.p2m * 100) : 0), backgroundColor: '#ffc93c' },
+      { label: 'P3', data: byUF.map(u => u.p3m ? Math.round(u.p3m * 100) : 0), backgroundColor: '#4dabf7' },
+      { label: 'P4', data: byUF.map(u => u.p4m ? Math.round(u.p4m * 100) : 0), backgroundColor: '#b197fc' }
     ]
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'top' } },
-    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
-  }
+  options: chartOptions
 });
 
-// Chart Coord - média geral P1
+// Gráfico Coordenador
 new Chart(document.getElementById('chartCoord'), {
   type: 'bar',
   data: {
     labels: byCoord.map(c => c.name.split(' ')[0]),
     datasets: [
-      { label: 'P1', data: byCoord.map(c => {
-        const vals = [c.p1m, c.p1f].filter(v => v !== null);
-        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
-      }), backgroundColor: pColors.p1 },
-      { label: 'P2', data: byCoord.map(c => {
-        const vals = [c.p2m, c.p2f].filter(v => v !== null);
-        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
-      }), backgroundColor: pColors.p2 },
-      { label: 'P3', data: byCoord.map(c => {
-        const vals = [c.p3m, c.p3f].filter(v => v !== null);
-        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
-      }), backgroundColor: pColors.p3 },
-      { label: 'P4', data: byCoord.map(c => c.p4m !== null ? c.p4m * 100 : null), backgroundColor: pColors.p4 }
+      { label: 'P1', data: byCoord.map(c => c.p1m ? Math.round(c.p1m * 100) : 0), backgroundColor: '#ff6b6b' },
+      { label: 'P2', data: byCoord.map(c => c.p2m ? Math.round(c.p2m * 100) : 0), backgroundColor: '#ffc93c' },
+      { label: 'P3', data: byCoord.map(c => c.p3m ? Math.round(c.p3m * 100) : 0), backgroundColor: '#4dabf7' },
+      { label: 'P4', data: byCoord.map(c => c.p4m ? Math.round(c.p4m * 100) : 0), backgroundColor: '#b197fc' }
     ]
   },
-  options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { position: 'top' } },
-    scales: { x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
-  }
+  options: { ...chartOptions, indexAxis: 'y' }
 });
 
-// Chart CM - média geral
+// Gráfico CM
 new Chart(document.getElementById('chartCM'), {
   type: 'bar',
   data: {
-    labels: byCM.map(c => c.cm),
+    labels: byCM.map(m => m.cm),
     datasets: [
-      { label: 'P1', data: byCM.map(c => {
-        const vals = [c.p1m, c.p1f].filter(v => v !== null);
-        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
-      }), backgroundColor: pColors.p1 },
-      { label: 'P2', data: byCM.map(c => {
-        const vals = [c.p2m, c.p2f].filter(v => v !== null);
-        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
-      }), backgroundColor: pColors.p2 },
-      { label: 'P3', data: byCM.map(c => {
-        const vals = [c.p3m, c.p3f].filter(v => v !== null);
-        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
-      }), backgroundColor: pColors.p3 },
-      { label: 'P4', data: byCM.map(c => c.p4m !== null ? c.p4m * 100 : null), backgroundColor: pColors.p4 }
+      { label: 'P1', data: byCM.map(m => m.p1m ? Math.round(m.p1m * 100) : 0), backgroundColor: '#ff6b6b' },
+      { label: 'P2', data: byCM.map(m => m.p2m ? Math.round(m.p2m * 100) : 0), backgroundColor: '#ffc93c' },
+      { label: 'P3', data: byCM.map(m => m.p3m ? Math.round(m.p3m * 100) : 0), backgroundColor: '#4dabf7' },
+      { label: 'P4', data: byCM.map(m => m.p4m ? Math.round(m.p4m * 100) : 0), backgroundColor: '#b197fc' }
     ]
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
-  }
+  options: chartOptions
 });
 </script>
 </body>
