@@ -119,6 +119,9 @@
   .pill.mid  { background: var(--amber-bg); color: var(--amber); border-color: rgba(251,191,36,.25); }
   .pill.bad  { background: var(--red-bg); color: var(--red); border-color: rgba(248,113,113,.25); }
   .pill.na   { background: rgba(255,255,255,.04); color: var(--muted-dim); border-color: var(--border); }
+  /* P1 special formatting: white for >=80%, red for <80% */
+  .pill.p1-good { background: rgba(255,255,255,0.12); color: #ffffff; border-color: rgba(255,255,255,.35); }
+  .pill.p1-bad  { background: var(--red-bg); color: #ff0000; border-color: rgba(255,0,0,.35); }
   .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); }
   .legend-item .sw { width: 12px; height: 12px; border-radius: 3px; box-shadow: 0 0 6px currentColor; }
@@ -140,7 +143,7 @@
       </div>
     </div>
     <div class="header-bottom">
-      <span class="update">🕐 Última atualização: <strong>10/07/2026 12:40</strong></span>
+      <span class="update">🕐 Última atualização: <strong>10/07/2026 13:08</strong></span>
       <div class="total-badge">
         <div class="label">Total de TAs</div>
         <div class="value">2.093</div>
@@ -245,7 +248,7 @@
 </div>
 
 <script>
-// === DADOS ATUALIZADOS EM 10/07/2026 12:40 ===
+// === DADOS ATUALIZADOS EM 10/07/2026 13:08 ===
 const summary = {
   P1: { dentro: 1334, fora: 231, pct: 0.8524, sla: "4h" },
   P2: { dentro: 304, fora: 41, pct: 0.8812, sla: "12h" },
@@ -307,6 +310,7 @@ Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
 
 const pColors = { p1: '#ff6b6b', p2: '#ffc93c', p3: '#4dabf7', p4: '#b197fc' };
 
+// Standard pill function for P2, P3, P4
 function pill(v) {
   if (v === null || v === undefined) return '<span class="pill na">—</span>';
   const pct = Math.round(v * 100);
@@ -314,14 +318,22 @@ function pill(v) {
   return `<span class="pill ${cls}">${pct}%</span>`;
 }
 
-// Tabela Coordenadores - COMPLETA com 10 coordenadores
+// Special P1 pill function: >=80% = white, <80% = red
+function pillP1(v) {
+  if (v === null || v === undefined) return '<span class="pill na">—</span>';
+  const pct = Math.round(v * 100);
+  const cls = pct >= 80 ? 'p1-good' : 'p1-bad';
+  return `<span class="pill ${cls}">${pct}%</span>`;
+}
+
+// Tabela Coordenadores - with P1 special formatting
 document.getElementById('tblCoord').innerHTML = byCoord.map(c =>
-  `<tr><td>${c.name}</td><td class="num">${pill(c.p1m)}</td><td class="num">${pill(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
+  `<tr><td>${c.name}</td><td class="num">${pillP1(c.p1m)}</td><td class="num">${pillP1(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
 ).join('');
 
-// Tabela CM - COMPLETA com 24 CMs
+// Tabela CM - with P1 special formatting
 document.getElementById('tblCM').innerHTML = byCM.map(c =>
-  `<tr><td>${c.cm}</td><td class="num">${pill(c.p1m)}</td><td class="num">${pill(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
+  `<tr><td>${c.cm}</td><td class="num">${pillP1(c.p1m)}</td><td class="num">${pillP1(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
 ).join('');
 
 // Chart UF - média P1/P2/P3/P4
