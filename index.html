@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard SLA - Regional Sul | Ability</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root {
     --bg: #000000;
@@ -97,14 +96,11 @@
   .pbar .fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, white)); transition: width .8s ease; box-shadow: 0 0 12px var(--accent), 0 2px 4px rgba(0,0,0,0.2); }
   .section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; margin: 28px 0 14px; color: var(--text); }
   .section-title .bar { width: 4px; height: 22px; background: var(--accent); border-radius: 3px; box-shadow: 0 0 8px var(--accent); }
-  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-  .chart-card, .table-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
-  .chart-card.full { grid-column: 1 / -1; }
-  .chart-card h3, .table-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; color: var(--text); }
-  .chart-card .h-sub, .table-card .h-sub { color: var(--muted); font-size: .8rem; margin-bottom: 16px; }
-  .chart-wrap { position: relative; height: 320px; }
-  .chart-wrap.tall { height: 440px; }
-  .table-card { overflow: hidden; }
+  .tables-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .table-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); overflow: hidden; }
+  .table-card.full { grid-column: 1 / -1; }
+  .table-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; color: var(--text); }
+  .table-card .h-sub { color: var(--muted); font-size: .8rem; margin-bottom: 16px; }
   .table-scroll { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 480px; }
   thead th { text-align: left; padding: 11px 14px; background: #0a0a0a; color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .03em; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; }
@@ -121,13 +117,10 @@
   .pill.na { background: rgba(255,255,255,.04); color: var(--muted-dim); border-color: var(--border); }
   .pill.p1-good { background: rgba(255,255,255,.08); color: #ffffff; border-color: rgba(255,255,255,.2); }
   .pill.p1-bad { background: var(--red-bg); color: #ff6b6b; border-color: rgba(255,107,107,.35); }
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: .8rem; color: var(--muted); }
-  .legend-item .sw { width: 12px; height: 12px; border-radius: 3px; box-shadow: 0 0 6px currentColor; }
   footer { text-align: center; color: var(--muted-dim); font-size: .8rem; padding: 28px 0 12px; border-top: 1px solid var(--border); margin-top: 24px; }
   footer .brand { color: var(--accent); font-weight: 600; }
-  @media (max-width: 1100px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .charts-row { grid-template-columns: 1fr; } }
-  @media (max-width: 700px) { .container { padding: 12px; } header { padding: 22px 20px; } header h1 { font-size: 1.25rem; } .header-bottom .total-badge { margin-left: 0; width: 100%; text-align: center; } .cards-grid { grid-template-columns: repeat(2, 1fr); } .pcard { padding: 16px; } .pcard .pct { font-size: 1.75rem; } .chart-wrap { height: 280px; } }
+  @media (max-width: 1100px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } .tables-row { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .container { padding: 12px; } header { padding: 22px 20px; } header h1 { font-size: 1.25rem; } .header-bottom .total-badge { margin-left: 0; width: 100%; text-align: center; } .cards-grid { grid-template-columns: repeat(2, 1fr); } .pcard { padding: 16px; } .pcard .pct { font-size: 1.75rem; } }
   @media (max-width: 480px) { .cards-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -188,38 +181,9 @@
     </div>
   </section>
 
-  <div class="section-title"><span class="bar"></span>Análise por UF e Coordenador</div>
-  <div class="charts-row">
-    <div class="chart-card">
-      <h3>📍 % SLA Dentro por UF</h3>
-      <p class="h-sub">Comparativo entre estados</p>
-      <div class="chart-wrap"><canvas id="chartUF"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <h3>👥 % SLA Dentro por Coordenador</h3>
-      <p class="h-sub">Performance individual</p>
-      <div class="chart-wrap tall"><canvas id="chartCoord"></canvas></div>
-    </div>
-  </div>
-
-  <div class="section-title"><span class="bar"></span>Detalhamento por Centro de Manutenção</div>
-  <div class="charts-row">
-    <div class="chart-card full">
-      <h3>🏢 % SLA Dentro por CM</h3>
-      <p class="h-sub">Todos os 24 centros de manutenção</p>
-      <div class="legend">
-        <span class="legend-item"><span class="sw" style="background:var(--p1);color:var(--p1)"></span>P1 (4h)</span>
-        <span class="legend-item"><span class="sw" style="background:var(--p2);color:var(--p2)"></span>P2 (12h)</span>
-        <span class="legend-item"><span class="sw" style="background:var(--p3);color:var(--p3)"></span>P3 (24h)</span>
-        <span class="legend-item"><span class="sw" style="background:var(--p4);color:var(--p4)"></span>P4 (10d)</span>
-      </div>
-      <div class="chart-wrap tall"><canvas id="chartCM"></canvas></div>
-    </div>
-  </div>
-
   <div class="section-title"><span class="bar"></span>Tabelas Detalhadas</div>
-  <div class="charts-row">
-    <div class="table-card" style="grid-column: 1 / -1;">
+  <div class="tables-row">
+    <div class="table-card full">
       <h3>📍 Por UF</h3>
       <p class="h-sub">% SLA Dentro por prioridade e tipo de planta</p>
       <div class="table-scroll">
@@ -230,7 +194,7 @@
       </div>
     </div>
   </div>
-  <div class="charts-row">
+  <div class="tables-row">
     <div class="table-card">
       <h3>👥 Por Coordenador</h3>
       <p class="h-sub">% SLA Dentro por prioridade</p>
@@ -372,67 +336,6 @@ document.getElementById('tblCM').innerHTML = byCM.map(m => `
     <td class="num">${pill(m.p4m)}</td>
   </tr>
 `).join('');
-
-// ============================================
-// GRÁFICOS
-// ============================================
-
-const chartOptions = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { display: true, position: 'top', labels: { color: '#a1a1aa', font: { size: 11 } } }
-  },
-  scales: {
-    x: { ticks: { color: '#a1a1aa' }, grid: { color: '#1f1f1f' } },
-    y: { min: 0, max: 100, ticks: { color: '#a1a1aa', callback: v => v + '%' }, grid: { color: '#1f1f1f' } }
-  }
-};
-
-// Gráfico UF
-new Chart(document.getElementById('chartUF'), {
-  type: 'bar',
-  data: {
-    labels: byUF.map(u => u.uf),
-    datasets: [
-      { label: 'P1', data: byUF.map(u => u.p1m ? Math.round(u.p1m * 100) : 0), backgroundColor: '#ff6b6b' },
-      { label: 'P2', data: byUF.map(u => u.p2m ? Math.round(u.p2m * 100) : 0), backgroundColor: '#ffc93c' },
-      { label: 'P3', data: byUF.map(u => u.p3m ? Math.round(u.p3m * 100) : 0), backgroundColor: '#4dabf7' },
-      { label: 'P4', data: byUF.map(u => u.p4m ? Math.round(u.p4m * 100) : 0), backgroundColor: '#b197fc' }
-    ]
-  },
-  options: chartOptions
-});
-
-// Gráfico Coordenador
-new Chart(document.getElementById('chartCoord'), {
-  type: 'bar',
-  data: {
-    labels: byCoord.map(c => c.name.split(' ')[0]),
-    datasets: [
-      { label: 'P1', data: byCoord.map(c => c.p1m ? Math.round(c.p1m * 100) : 0), backgroundColor: '#ff6b6b' },
-      { label: 'P2', data: byCoord.map(c => c.p2m ? Math.round(c.p2m * 100) : 0), backgroundColor: '#ffc93c' },
-      { label: 'P3', data: byCoord.map(c => c.p3m ? Math.round(c.p3m * 100) : 0), backgroundColor: '#4dabf7' },
-      { label: 'P4', data: byCoord.map(c => c.p4m ? Math.round(c.p4m * 100) : 0), backgroundColor: '#b197fc' }
-    ]
-  },
-  options: { ...chartOptions, indexAxis: 'y' }
-});
-
-// Gráfico CM
-new Chart(document.getElementById('chartCM'), {
-  type: 'bar',
-  data: {
-    labels: byCM.map(m => m.cm),
-    datasets: [
-      { label: 'P1', data: byCM.map(m => m.p1m ? Math.round(m.p1m * 100) : 0), backgroundColor: '#ff6b6b' },
-      { label: 'P2', data: byCM.map(m => m.p2m ? Math.round(m.p2m * 100) : 0), backgroundColor: '#ffc93c' },
-      { label: 'P3', data: byCM.map(m => m.p3m ? Math.round(m.p3m * 100) : 0), backgroundColor: '#4dabf7' },
-      { label: 'P4', data: byCM.map(m => m.p4m ? Math.round(m.p4m * 100) : 0), backgroundColor: '#b197fc' }
-    ]
-  },
-  options: chartOptions
-});
 </script>
 </body>
 </html>
