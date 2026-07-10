@@ -43,7 +43,7 @@
   }
   .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
   header {
-    background: linear-gradient(135deg, #0a0a0a 0%, #131313 100%);
+    background: #000000;
     border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 32px;
     margin-bottom: 20px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
   }
@@ -95,9 +95,6 @@
   .pcard .pstats .out { color: #ff8787; font-weight: 700; text-shadow: 0 0 8px rgba(255,135,135,0.3); }
   .pbar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 6px; margin-top: 14px; overflow: hidden; position: relative; z-index: 1; }
   .pbar .fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, white)); transition: width .8s ease; box-shadow: 0 0 12px var(--accent), 0 2px 4px rgba(0,0,0,0.2); }
-  /* P1 Card - Cor condicional do percentual */
-  .pcard.p1 .pct.pct-black { color: #000000 !important; text-shadow: none !important; }
-  .pcard.p1 .pct.pct-red { color: #ff0000 !important; text-shadow: 0 0 10px rgba(255,0,0,0.5) !important; }
   .section-title { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; margin: 28px 0 14px; color: var(--text); }
   .section-title .bar { width: 4px; height: 22px; background: var(--accent); border-radius: 3px; box-shadow: 0 0 8px var(--accent); }
   .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
@@ -222,10 +219,10 @@
   <div class="charts-row">
     <div class="table-card">
       <h3>👥 Por Coordenador</h3>
-      <p class="h-sub">% SLA Dentro por prioridade</p>
+      <p class="h-sub">% SLA Dentro por prioridade (P1 Móvel / P1 Fixa / P2 Móvel / P2 Fixa / P3 Móvel / P3 Fixa / P4 Móvel)</p>
       <div class="table-scroll">
         <table>
-          <thead><tr><th>Coordenador</th><th class="num">P1</th><th class="num">P2</th><th class="num">P3</th><th class="num">P4</th></tr></thead>
+          <thead><tr><th>Coordenador</th><th class="num">P1 Móv</th><th class="num">P1 Fix</th><th class="num">P2 Móv</th><th class="num">P2 Fix</th><th class="num">P3 Móv</th><th class="num">P3 Fix</th><th class="num">P4 Móv</th></tr></thead>
           <tbody id="tblCoord"></tbody>
         </table>
       </div>
@@ -235,7 +232,7 @@
       <p class="h-sub">% SLA Dentro por prioridade (24 CMs)</p>
       <div class="table-scroll" style="max-height: 500px;">
         <table>
-          <thead><tr><th>CM</th><th class="num">P1</th><th class="num">P2</th><th class="num">P3</th><th class="num">P4</th></tr></thead>
+          <thead><tr><th>CM</th><th class="num">P1 Móv</th><th class="num">P1 Fix</th><th class="num">P2 Móv</th><th class="num">P2 Fix</th><th class="num">P3 Móv</th><th class="num">P3 Fix</th><th class="num">P4 Móv</th></tr></thead>
           <tbody id="tblCM"></tbody>
         </table>
       </div>
@@ -258,49 +255,49 @@ const summary = {
 summary.TOTAL = { dentro: 1763, fora: 330, pct: 0.8423, sla: "" };
 
 const byUF = [
-  { uf: "PR", p1: 0.85, p2: 0.82, p3: 0.64, p4: 0.67 },
-  { uf: "RS", p1: 0.87, p2: 0.95, p3: 0.75, p4: 0.74 },
-  { uf: "SC", p1: 0.83, p2: 0.81, p3: 0.53, p4: 0.80 }
+  { uf: "PR", p1m: 0.82, p1f: 0.91, p2m: 0.80, p2f: 0.95, p3m: 0.63, p3f: 0.75, p4m: 0.67 },
+  { uf: "RS", p1m: 0.89, p1f: 0.78, p2m: 0.95, p2f: 0.94, p3m: 0.74, p3f: 0.86, p4m: 0.74 },
+  { uf: "SC", p1m: 0.83, p1f: 0.89, p2m: 0.81, p2f: 0.67, p3m: 0.48, p3f: 1.00, p4m: 0.80 }
 ];
 
 const byCoord = [
-  { name: "ANDERSON PARENTE", p1: 0.88, p2: 0.93, p3: 0.86, p4: 0.60 },
-  { name: "LUCAS BARROS", p1: 0.83, p2: 0.83, p3: 0.70, p4: 0.60 },
-  { name: "JULIANO RONI MORAS", p1: 0.82, p2: 0.76, p3: 0.24, p4: 0.50 },
-  { name: "CARLOS PREIS", p1: 0.87, p2: 0.77, p3: 0.58, p4: 0.75 },
-  { name: "MAURICIO SPERAFICO", p1: 0.85, p2: 0.94, p3: 0.58, p4: 0.75 },
-  { name: "ALEXANDRE MAZONI", p1: 0.84, p2: 0.82, p3: 0.46, p4: 1.00 },
-  { name: "ANDREI ROSSI", p1: 0.96, p2: 1.00, p3: 0.57, p4: 0.75 },
-  { name: "ELENICE CONRAD", p1: 0.87, p2: 0.95, p3: 0.79, p4: 1.00 },
-  { name: "ESDRAS VIEIRA", p1: 0.72, p2: 0.85, p3: 0.83, p4: 0.67 },
-  { name: "LUIS AUGUSTO", p1: 0.90, p2: 1.00, p3: 0.78, p4: 1.00 }
+  { name: "ANDERSON PARENTE", p1m: 0.88, p1f: 0.75, p2m: 0.90, p2f: 1.00, p3m: 0.89, p3f: 0.80, p4m: 0.60 },
+  { name: "LUCAS BARROS", p1m: 0.78, p1f: 0.92, p2m: 0.78, p2f: 0.93, p3m: 0.65, p3f: 1.00, p4m: 0.60 },
+  { name: "JULIANO RONI MORAS", p1m: 0.84, p1f: 0.77, p2m: 0.72, p2f: 1.00, p3m: 0.36, p3f: 0.00, p4m: 0.50 },
+  { name: "CARLOS PREIS", p1m: 0.86, p1f: 0.92, p2m: 0.80, p2f: 0.67, p3m: 0.50, p3f: 1.00, p4m: 0.75 },
+  { name: "MAURICIO SPERAFICO", p1m: 0.89, p1f: 0.71, p2m: 1.00, p2f: 0.75, p3m: 0.50, p3f: 1.00, p4m: 0.75 },
+  { name: "ALEXANDRE MAZONI", p1m: 0.80, p1f: 0.94, p2m: 0.82, p2f: null, p3m: 0.46, p3f: null, p4m: 1.00 },
+  { name: "ANDREI ROSSI", p1m: 0.97, p1f: 0.92, p2m: 1.00, p2f: null, p3m: 0.57, p3f: null, p4m: 0.75 },
+  { name: "ELENICE CONRAD", p1m: 0.82, p1f: 0.97, p2m: 0.93, p2f: 1.00, p3m: 0.79, p3f: null, p4m: 1.00 },
+  { name: "ESDRAS VIEIRA", p1m: 0.77, p1f: 0.55, p2m: 0.85, p2f: null, p3m: 0.83, p3f: null, p4m: 0.67 },
+  { name: "LUIS AUGUSTO", p1m: 0.92, p1f: 0.83, p2m: 1.00, p2f: 1.00, p3m: 0.78, p3f: null, p4m: 1.00 }
 ];
 
 const byCM = [
-  { cm: "CTA", p1: 0.87, p2: 0.95, p3: 0.79, p4: 1.00 },
-  { cm: "SJP", p1: 0.83, p2: 0.77, p3: 0.53, p4: 0.50 },
-  { cm: "LDA", p1: 0.89, p2: 1.00, p3: 0.83, p4: 0.67 },
-  { cm: "BNU", p1: 0.85, p2: 0.88, p3: 1.00, p4: null },
-  { cm: "FNS", p1: 0.87, p2: 0.80, p3: 0.71, p4: null },
-  { cm: "CSL", p1: 0.80, p2: 0.94, p3: 0.67, p4: 0.50 },
-  { cm: "CSC", p1: 0.91, p2: 0.67, p3: null, p4: null },
-  { cm: "POA", p1: 0.92, p2: 1.00, p3: 0.76, p4: 1.00 },
-  { cm: "NHO", p1: 0.92, p2: 1.00, p3: 0.42, p4: 1.00 },
-  { cm: "LGS", p1: 0.71, p2: 1.00, p3: null, p4: null },
-  { cm: "SMA", p1: 0.88, p2: 1.00, p3: 1.00, p4: 0.00 },
-  { cm: "SAN", p1: 0.77, p2: 0.89, p3: 0.50, p4: 1.00 },
-  { cm: "CCO", p1: 0.77, p2: 0.71, p3: 0.50, p4: null },
-  { cm: "MGA", p1: 0.81, p2: 0.80, p3: 0.21, p4: 0.50 },
-  { cm: "CAN", p1: 0.98, p2: 1.00, p3: 0.00, p4: 0.50 },
-  { cm: "GRP", p1: 0.65, p2: 1.00, p3: 0.50, p4: null },
-  { cm: "OSR", p1: 0.77, p2: 1.00, p3: 0.80, p4: 1.00 },
-  { cm: "PLT", p1: 0.87, p2: 0.85, p3: 0.70, p4: 0.75 },
-  { cm: "JVE", p1: 0.86, p2: 0.71, p3: 0.42, p4: 0.00 },
-  { cm: "IAI", p1: 0.88, p2: 0.78, p3: 0.40, p4: 1.00 },
-  { cm: "SCR", p1: 0.80, p2: 1.00, p3: 1.00, p4: null },
-  { cm: "CUA", p1: 0.75, p2: 0.86, p3: 0.17, p4: 1.00 },
-  { cm: "PGO", p1: 0.81, p2: 0.79, p3: 1.00, p4: null },
-  { cm: "PAS", p1: 0.70, p2: 0.83, p3: 1.00, p4: 0.50 }
+  { cm: "CTA", p1m: 0.82, p1f: 0.97, p2m: 0.93, p2f: 1.00, p3m: 0.79, p3f: null, p4m: 1.00 },
+  { cm: "SJP", p1m: 0.78, p1f: 0.92, p2m: 0.69, p2f: 1.00, p3m: 0.43, p3f: 1.00, p4m: 0.50 },
+  { cm: "LDA", p1m: 0.86, p1f: 0.96, p2m: 1.00, p2f: 1.00, p3m: 0.83, p3f: null, p4m: 0.67 },
+  { cm: "BNU", p1m: 0.85, p1f: null, p2m: 1.00, p2f: 0.50, p3m: 1.00, p3f: 1.00, p4m: null },
+  { cm: "FNS", p1m: 0.86, p1f: 0.93, p2m: 0.80, p2f: null, p3m: 0.71, p3f: null, p4m: null },
+  { cm: "CSL", p1m: 0.88, p1f: 0.56, p2m: 1.00, p2f: 0.75, p3m: 0.67, p3f: null, p4m: 0.50 },
+  { cm: "CSC", p1m: 0.92, p1f: 0.88, p2m: 0.67, p2f: null, p3m: null, p3f: null, p4m: null },
+  { cm: "POA", p1m: 0.95, p1f: 0.85, p2m: 1.00, p2f: 1.00, p3m: 0.76, p3f: null, p4m: 1.00 },
+  { cm: "NHO", p1m: 0.90, p1f: 1.00, p2m: 1.00, p2f: null, p3m: 0.25, p3f: 1.00, p4m: 1.00 },
+  { cm: "LGS", p1m: 0.76, p1f: 0.50, p2m: 1.00, p2f: null, p3m: null, p3f: null, p4m: null },
+  { cm: "SMA", p1m: 0.94, p1f: 0.69, p2m: 1.00, p2f: null, p3m: 1.00, p3f: null, p4m: 0.00 },
+  { cm: "SAN", p1m: 0.85, p1f: 0.50, p2m: 0.89, p2f: null, p3m: 0.50, p3f: null, p4m: 1.00 },
+  { cm: "CCO", p1m: 0.80, p1f: 0.67, p2m: 0.71, p2f: null, p3m: 0.50, p3f: null, p4m: null },
+  { cm: "MGA", p1m: 0.83, p1f: 0.77, p2m: 0.73, p2f: 1.00, p3m: 0.29, p3f: 0.00, p4m: 0.50 },
+  { cm: "CAN", p1m: 0.98, p1f: 1.00, p2m: 1.00, p2f: null, p3m: 0.00, p3f: null, p4m: 0.50 },
+  { cm: "GRP", p1m: 0.65, p1f: null, p2m: 1.00, p2f: null, p3m: 0.50, p3f: null, p4m: null },
+  { cm: "OSR", p1m: 0.96, p1f: 0.00, p2m: 1.00, p2f: null, p3m: 0.80, p3f: null, p4m: 1.00 },
+  { cm: "PLT", p1m: 0.82, p1f: 1.00, p2m: 0.77, p2f: 1.00, p3m: 0.67, p3f: 0.80, p4m: 0.75 },
+  { cm: "JVE", p1m: 0.85, p1f: 0.88, p2m: 0.71, p2f: null, p3m: 0.25, p3f: 1.00, p4m: 0.00 },
+  { cm: "IAI", p1m: 0.87, p1f: 0.94, p2m: 0.70, p2f: 1.00, p3m: 0.40, p3f: null, p4m: 1.00 },
+  { cm: "SCR", p1m: 0.85, p1f: 0.67, p2m: 1.00, p2f: null, p3m: 1.00, p3f: null, p4m: null },
+  { cm: "CUA", p1m: 0.67, p1f: 1.00, p2m: 0.86, p2f: null, p3m: 0.17, p3f: null, p4m: 1.00 },
+  { cm: "PGO", p1m: 0.79, p1f: 0.86, p2m: 0.73, p2f: 0.90, p3m: 1.00, p3f: 1.00, p4m: null },
+  { cm: "PAS", p1m: 0.73, p1f: 0.56, p2m: 0.83, p2f: null, p3m: 1.00, p3f: null, p4m: 0.50 }
 ];
 
 // Chart defaults
@@ -317,26 +314,26 @@ function pill(v) {
   return `<span class="pill ${cls}">${pct}%</span>`;
 }
 
-// Tabela Coordenadores
+// Tabela Coordenadores - COMPLETA com 10 coordenadores
 document.getElementById('tblCoord').innerHTML = byCoord.map(c =>
-  `<tr><td>${c.name}</td><td class="num">${pill(c.p1)}</td><td class="num">${pill(c.p2)}</td><td class="num">${pill(c.p3)}</td><td class="num">${pill(c.p4)}</td></tr>`
+  `<tr><td>${c.name}</td><td class="num">${pill(c.p1m)}</td><td class="num">${pill(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
 ).join('');
 
-// Tabela CM
+// Tabela CM - COMPLETA com 24 CMs
 document.getElementById('tblCM').innerHTML = byCM.map(c =>
-  `<tr><td>${c.cm}</td><td class="num">${pill(c.p1)}</td><td class="num">${pill(c.p2)}</td><td class="num">${pill(c.p3)}</td><td class="num">${pill(c.p4)}</td></tr>`
+  `<tr><td>${c.cm}</td><td class="num">${pill(c.p1m)}</td><td class="num">${pill(c.p1f)}</td><td class="num">${pill(c.p2m)}</td><td class="num">${pill(c.p2f)}</td><td class="num">${pill(c.p3m)}</td><td class="num">${pill(c.p3f)}</td><td class="num">${pill(c.p4m)}</td></tr>`
 ).join('');
 
-// Chart UF
+// Chart UF - média P1/P2/P3/P4
 new Chart(document.getElementById('chartUF'), {
   type: 'bar',
   data: {
     labels: byUF.map(u => u.uf),
     datasets: [
-      { label: 'P1', data: byUF.map(u => u.p1 * 100), backgroundColor: pColors.p1 },
-      { label: 'P2', data: byUF.map(u => u.p2 * 100), backgroundColor: pColors.p2 },
-      { label: 'P3', data: byUF.map(u => u.p3 * 100), backgroundColor: pColors.p3 },
-      { label: 'P4', data: byUF.map(u => u.p4 * 100), backgroundColor: pColors.p4 }
+      { label: 'P1', data: byUF.map(u => ((u.p1m + u.p1f) / 2) * 100), backgroundColor: pColors.p1 },
+      { label: 'P2', data: byUF.map(u => ((u.p2m + u.p2f) / 2) * 100), backgroundColor: pColors.p2 },
+      { label: 'P3', data: byUF.map(u => ((u.p3m + u.p3f) / 2) * 100), backgroundColor: pColors.p3 },
+      { label: 'P4', data: byUF.map(u => u.p4m * 100), backgroundColor: pColors.p4 }
     ]
   },
   options: {
@@ -346,16 +343,25 @@ new Chart(document.getElementById('chartUF'), {
   }
 });
 
-// Chart Coord
+// Chart Coord - média geral P1
 new Chart(document.getElementById('chartCoord'), {
   type: 'bar',
   data: {
     labels: byCoord.map(c => c.name.split(' ')[0]),
     datasets: [
-      { label: 'P1', data: byCoord.map(c => c.p1 * 100), backgroundColor: pColors.p1 },
-      { label: 'P2', data: byCoord.map(c => c.p2 * 100), backgroundColor: pColors.p2 },
-      { label: 'P3', data: byCoord.map(c => c.p3 * 100), backgroundColor: pColors.p3 },
-      { label: 'P4', data: byCoord.map(c => c.p4 * 100), backgroundColor: pColors.p4 }
+      { label: 'P1', data: byCoord.map(c => {
+        const vals = [c.p1m, c.p1f].filter(v => v !== null);
+        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
+      }), backgroundColor: pColors.p1 },
+      { label: 'P2', data: byCoord.map(c => {
+        const vals = [c.p2m, c.p2f].filter(v => v !== null);
+        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
+      }), backgroundColor: pColors.p2 },
+      { label: 'P3', data: byCoord.map(c => {
+        const vals = [c.p3m, c.p3f].filter(v => v !== null);
+        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
+      }), backgroundColor: pColors.p3 },
+      { label: 'P4', data: byCoord.map(c => c.p4m !== null ? c.p4m * 100 : null), backgroundColor: pColors.p4 }
     ]
   },
   options: {
@@ -365,16 +371,25 @@ new Chart(document.getElementById('chartCoord'), {
   }
 });
 
-// Chart CM
+// Chart CM - média geral
 new Chart(document.getElementById('chartCM'), {
   type: 'bar',
   data: {
     labels: byCM.map(c => c.cm),
     datasets: [
-      { label: 'P1', data: byCM.map(c => c.p1 !== null ? c.p1 * 100 : null), backgroundColor: pColors.p1 },
-      { label: 'P2', data: byCM.map(c => c.p2 !== null ? c.p2 * 100 : null), backgroundColor: pColors.p2 },
-      { label: 'P3', data: byCM.map(c => c.p3 !== null ? c.p3 * 100 : null), backgroundColor: pColors.p3 },
-      { label: 'P4', data: byCM.map(c => c.p4 !== null ? c.p4 * 100 : null), backgroundColor: pColors.p4 }
+      { label: 'P1', data: byCM.map(c => {
+        const vals = [c.p1m, c.p1f].filter(v => v !== null);
+        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
+      }), backgroundColor: pColors.p1 },
+      { label: 'P2', data: byCM.map(c => {
+        const vals = [c.p2m, c.p2f].filter(v => v !== null);
+        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
+      }), backgroundColor: pColors.p2 },
+      { label: 'P3', data: byCM.map(c => {
+        const vals = [c.p3m, c.p3f].filter(v => v !== null);
+        return vals.length ? (vals.reduce((a,b) => a+b, 0) / vals.length) * 100 : null;
+      }), backgroundColor: pColors.p3 },
+      { label: 'P4', data: byCM.map(c => c.p4m !== null ? c.p4m * 100 : null), backgroundColor: pColors.p4 }
     ]
   },
   options: {
@@ -383,15 +398,6 @@ new Chart(document.getElementById('chartCM'), {
     scales: { y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } } }
   }
 });
-
-// P1 - Cor condicional: preto >= 80%, vermelho < 80%
-setTimeout(function() {
-    var p1Pct = summary.P1.pct;
-    var p1El = document.querySelector('.pcard.p1 .pct');
-    if (p1El) {
-        p1El.className = 'pct ' + (p1Pct >= 0.80 ? 'pct-black' : 'pct-red');
-    }
-}, 100);
 </script>
 </body>
 </html>
